@@ -62,7 +62,7 @@ public class MyFitnessTrackerApp {
 			id = Integer.parseInt(reader.readLine());
 		} catch (FileNotFoundException e) {			
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Sorry a fatal error has ocurred contact support.");
+			JOptionPane.showMessageDialog(null, "Sorry an internal error has ocurred contact support.");
 			System.exit(0);
 		}catch(NumberFormatException x){
 			x.printStackTrace();
