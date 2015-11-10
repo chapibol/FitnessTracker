@@ -15,8 +15,10 @@ import java.util.List;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.JOptionPane;
 
@@ -31,12 +33,10 @@ public class MyFitnessTrackerApp {
     	String weightsPath = ".src/weights.txt";
     	final int MAX_NUMBER_USERS = 20;
     	int nextId = 0;
-    	try {
-			 nextId = readNextId(nextIdPath);
-		} catch (FileNotFoundException e) {
-			JOptionPane.showMessageDialog(null, "Sorry a fatal error has ocurred contact support.");
-			System.exit(0);
-		}
+ 
+    	nextId = readNextId(nextIdPath);
+    	nextId++;
+    	saveNextId(nextIdPath,nextId);
     	
     	System.out.println("nextId is: " + nextId);
     	//array list to hold all fitness user accounts for the application. initial capacity of 10
@@ -55,23 +55,38 @@ public class MyFitnessTrackerApp {
      * @return
      * @throws FileNotFoundException
      */
-    public static int readNextId(String path)throws FileNotFoundException {
+    public static int readNextId(String path){
     	int id = -1;
     	try {
 			BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
 			id = Integer.parseInt(reader.readLine());
 		} catch (FileNotFoundException e) {			
 			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Sorry a fatal error has ocurred contact support.");
+			System.exit(0);
 		}catch(NumberFormatException x){
 			x.printStackTrace();
 		} catch (IOException c) {
 			c.printStackTrace();
-		}    	
+		}
     	return id;
     }
-    
-    public static int saveNextId(String path){
-    	
+    /**
+     * Saves the nextid value to a text file to be used by application when needed.
+     * @param path
+     * @param idToSave
+     */
+    public static void saveNextId(String path, int idToSave){
+    	PrintWriter out = null;
+		try {
+			out = new PrintWriter(new FileOutputStream(new File(path)));
+			out.println(""+idToSave);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Internal error, please contact support");
+		}finally{
+			out.close();
+		}    	
     }
     
 }
