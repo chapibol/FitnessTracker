@@ -8,13 +8,17 @@
  *
  * @author Daniel
  */
-public class Yoga {
+public class Yoga extends ExerciseActivity{
+    
     public Yoga(){
         
     }
     
-
     public String toString(){
-    	return "I Am the yoga excercise";
+    	return "Duration: " + super.getDuration();
+    }
+    
+    public double calculateCaloriesBurned(){
+         return 0.0;
     }
 }
