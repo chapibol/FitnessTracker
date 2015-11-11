@@ -9,8 +9,11 @@
  *
  * @author Daniel
  */
+ 
+ 
 public class PullUp extends ExerciseActivity{
    private int quantity;
+   public final double CAL_PER_PULLUP = 4;
    
    public PullUp(){
         
@@ -29,7 +32,12 @@ public class PullUp extends ExerciseActivity{
       }
       this.quantity = quantity;
    }
+   
    public double calculateCaloriesBurned(){
-      return 0.0;
+      return quantity * CAL_PER_PULLUP;
+    }
+    
+    public String toString(){
+        return "";
     }
 }
