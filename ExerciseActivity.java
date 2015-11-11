@@ -18,6 +18,7 @@ class ExerciseActivity {
     public ExerciseActivity(){
         
     }
+    
     public ExerciseActivity(int userId, int duration, Date date){
         this.userId = userId;
         this.duration = duration;
@@ -46,13 +47,12 @@ class ExerciseActivity {
         this.date = date;
     }
     
-    //I think this is abstract
     public void calculateCaloriesBurned(){
         
     }
     
-    @Override
     public String toString(){
         return "";
     }
 }
+
