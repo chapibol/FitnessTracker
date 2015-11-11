@@ -48,11 +48,29 @@ public class MyFitnessTrackerApp {
 			BufferedReader buff = new BufferedReader(new FileReader(new File(userDataPath)));
 			Scanner scan = null;
 			String line = "";
+			int userId = 0;
 			String name = "";
-			
+			String username = "";
+			String gender = "";
+			int age = 0;
+			int height = 0;
+			int currentWeight = 0;
+			int targetWeight = 0;
+			//read lines
 			while((line = buff.readLine()) !=null){
 				scan = new Scanner(line);
 				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+				name = scan.next();
+				username = scan.next();
+				gender = scan.next();
+				age = Integer.parseInt(scan.next().trim());
+				height = Integer.parseInt(scan.next().trim());;
+				currentWeight = Integer.parseInt(scan.next().trim());
+				targetWeight = Integer.parseInt(scan.next().trim());
+				//create and populate a FitnessUser object for the current line
+				FitnessUser aUser = new FitnessUser(name, username, gender);
+				aUser.setUserId(userId);
 				
 			}
 		} catch (FileNotFoundException e) {
@@ -60,7 +78,7 @@ public class MyFitnessTrackerApp {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
 		} catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Internal error,");
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
 		}
     }
     
