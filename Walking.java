@@ -10,6 +10,9 @@
  */
 public class Walking {
     private double distance;
+    private double weight;
+    private int duration;
+
     
     public Walking(){
         
@@ -21,12 +24,32 @@ public class Walking {
     public double getDistance(){
         return distance;
     }
+    public int getDuration(){
+      return duration;
+    }
+    public double getWeight(){
+      return weight;
+    }
     
     public void setDistance(double distance){
         this.distance = distance;
     }
     
+    public void setDuration(int duration) throws InvalidInputException{
+      if(duration <= 0 || duration > 999){
+         throw new InvalidInputException("Error: Invalid entry.");
+      }
+      this.duration = duration;
+    }
+    public void setWeight(double weight){
+      this.weight = weight;
+    }
+    
     public double calculateCaloriesBurned(){
-         return 0.0;
+         return (weight * .53) * distance;
+    }
+    
+    public String toString(){
+        return "";
     }
 }
