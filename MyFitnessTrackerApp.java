@@ -7,7 +7,7 @@
 
 /**
  *
- * @author Daniel
+ * @author Daniel de Souza, Luis Velasco
  */
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,12 +38,26 @@ public class MyFitnessTrackerApp {
     	//array list to hold all fitness user accounts for the application. initial capacity of 10
         List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
         //load users fitness user list from file if any.
-                
+        loadFitnessUserInfo(fitnessUserList,fitnessUsersPath);
+        
+        
+        
+        
+        
+        
+        
+//        for(FitnessUser fit: fitnessUserList){
+//        	System.out.println("Userid: " + fit.getUserId() + " Name: " + fit.getName() + "\n" +
+//        					"username: " + fit.getUsername() + " gender: " + fit.getGender() + "\n"
+//        					+ "age: " + fit.getAge() + " height: " + fit.getHeight() + " currentWeight: " + fit.getCurrentWeight() +
+//        					" target Weight: " + fit.getTargetWeight());
+//        	System.out.println("--------------------------------------------");
+//        }
              
         
-    }
+    } 
     
-    public static void loadFitnessUserPersonalInfo(List<FitnessUser> userList, String userDataPath){
+    public static void loadFitnessUserInfo(List<FitnessUser> userList, String userDataPath){
     	try {
 			BufferedReader buff = new BufferedReader(new FileReader(new File(userDataPath)));
 			Scanner scan = null;
@@ -54,8 +68,8 @@ public class MyFitnessTrackerApp {
 			String gender = "";
 			int age = 0;
 			int height = 0;
-			int currentWeight = 0;
-			int targetWeight = 0;
+			double currentWeight = 0;
+			double targetWeight = 0;
 			//read lines
 			while((line = buff.readLine()) !=null){
 				scan = new Scanner(line);
@@ -66,12 +80,18 @@ public class MyFitnessTrackerApp {
 				gender = scan.next();
 				age = Integer.parseInt(scan.next().trim());
 				height = Integer.parseInt(scan.next().trim());;
-				currentWeight = Integer.parseInt(scan.next().trim());
-				targetWeight = Integer.parseInt(scan.next().trim());
+				currentWeight = Double.parseDouble(scan.next().trim());
+				targetWeight = Double.parseDouble(scan.next().trim());
 				//create and populate a FitnessUser object for the current line
 				FitnessUser aUser = new FitnessUser(name, username, gender);
 				aUser.setUserId(userId);
+				aUser.setAge(age);
+				aUser.setHeight(height);
+				aUser.setCurrentWeight(currentWeight);
+				aUser.setTargetWeight(targetWeight);
 				
+				//add user to user list
+				userList.add(aUser);				
 			}
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "File could not be found.");

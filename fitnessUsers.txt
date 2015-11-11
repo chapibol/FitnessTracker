@@ -1,1 +1,2 @@
 100,Luis Velasco,chapibol,M,23,65,145,140
+101,Daniel De Souza, dSouza,M,23,70,165,160

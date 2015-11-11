@@ -67,21 +67,21 @@ public class FitnessUser {
 
     //Mutator methods are written below
     /*setName throws exception if string input is empty*/
-    public void setName(String name) throws InvalidInputException(){
+    public void setName(String name) throws InvalidInputException{
             if(name.isEmpty()){
                 throw new InvalidInputException("Error: No name was entered.");
             }
             this.name = name;
     }
     /*setUsername() throws exception if string input is empty*/
-    public void setUsername(String username) throws InvalidInputException(){
+    public void setUsername(String username) throws InvalidInputException {
             if(username.isEmpty()){
                 throw new InvalidInputException("Error: No username was entered.");
             }
             userName = username;
     }
     /*setGender() throws exception if input is empty, or not "M"/"F"*/
-    public void setGender(String gender){
+    public void setGender(String gender) throws InvalidInputException{
         if(gender.isEmpty()){
             throw new InvalidInputException("Error: No gender was entered.");
         }
