@@ -99,6 +99,8 @@ public class MyFitnessTrackerApp {
 			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
 		} catch (NumberFormatException e){
 			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		} catch (InvalidInputException e) {
+			JOptionPane.showMessageDialog(null, "Internal error userid out of range");
 		}
     }
     

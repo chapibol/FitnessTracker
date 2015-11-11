@@ -15,7 +15,7 @@ public class FitnessUser {
     private int height;
     private double currentWeight;
     private double targetWeight;
-    private List<Activity> activities;
+    private List<ExerciseActivity> activities;
     private List<WeightDatePair> weightDateList;
     public static int numberOfUsers = 0;
 
@@ -68,29 +68,41 @@ public class FitnessUser {
     //Mutator methods are written below
     /*setName throws exception if string input is empty*/
     public void setName(String name) throws InvalidInputException{
-            if(name.isEmpty()){
+
+            if(name == null || name.isEmpty()){
                 throw new InvalidInputException("Error: No name was entered.");
             }
             this.name = name;
     }
     /*setUsername() throws exception if string input is empty*/
-    public void setUsername(String username) throws InvalidInputException {
-            if(username.isEmpty()){
+
+    public void setUsername(String username) throws InvalidInputException{
+            if(username == null || username.isEmpty()){
                 throw new InvalidInputException("Error: No username was entered.");
             }
             userName = username;
     }
     /*setGender() throws exception if input is empty, or not "M"/"F"*/
     public void setGender(String gender) throws InvalidInputException{
-        if(gender.isEmpty()){
+
+        if(gender == null || gender.isEmpty()){
             throw new InvalidInputException("Error: No gender was entered.");
         }
-        
-        this.gender = gender;
+        else if(!gender.equalsIgnoreCase("M") & !gender.equalsIgnoreCase("F")){
+            throw new InvalidInputException("Error: Invalid entry.");
+        }
+        this.gender = gender.toUpperCase();
     }
-    public void setUserId(int userId){
-            this.userId = userId;
+    
+    /*setUserId() throws exception if userId is null or invalid number. sets userID*/
+    public void setUserId(int userId) throws InvalidInputException{
+        if(userId < 100 || userId > 999){
+            throw new InvalidInputException("Error: UserId must be between 100 and 999.");
+        }
+        this.userId = userId;
     }
+    
+    /**/
     public void setAge(int age){
             this.age = age;
     }
