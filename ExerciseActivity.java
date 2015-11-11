@@ -13,7 +13,6 @@ import java.util.Date;
 public abstract class ExerciseActivity {
     private int userId;
     private Date date;
-    private double caloriesBurned;
     
     public ExerciseActivity(){
         
