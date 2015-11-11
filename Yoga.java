@@ -35,6 +35,6 @@ public class Yoga extends ExerciseActivity{
     }
     
     public String toString(){
-    	return "Duration: " + super.getDuration();
+    	return "Duration: " + getDuration();
     }
 }

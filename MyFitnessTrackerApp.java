@@ -26,21 +26,20 @@ import javax.swing.JOptionPane;
 
 public class MyFitnessTrackerApp {
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args){
-    	String nextIdPath = "./src/nextID.txt";
-    	String fitnessUsersPath = "./src/fitnessUsers.txt";
-    	String weightsPath = ".src/weights.txt";
     	final int MAX_NUMBER_USERS = 50;
-    	int nextId = readNextId(nextIdPath);
     	//array list to hold all fitness user accounts for the application. initial capacity of 10
         List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
-        //load users fitness user list from file if any.
-        loadFitnessUserInfo(fitnessUserList,fitnessUsersPath);
+        initializeApplication(fitnessUserList);
         int firstMenuOption = 0;
         //display login screen
+        
+        Date d = new Date();
+        
+        System.out.println(d.getTime());
+        
+        
         do{
         	firstMenuOption = getFirstMenuOption();
         }while(firstMenuOption != 3);
@@ -61,6 +60,77 @@ public class MyFitnessTrackerApp {
              
         
     } 
+//    aFile.getParentFile().mkdirs(); 
+//	aFile.createNewFile();
+    /**
+     * The purpose of this method is to load fitness users's data into application
+     * @return
+     */
+    public static void initializeApplication(List<FitnessUser> list){
+    	//default path locations for all files applications will need.
+    	final String FITNESS_USER_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "fitnessUsers.txt";//0
+    	final String NEXT_ID_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "nextID.txt";//1
+    	final String WEIGHTS_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "weights.txt";//2
+    	final String PULLUPS_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "pullups.txt";//3
+    	final String PUSHUPS_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "pushups.txt";//4
+    	final String RUNNING_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "running.txt";//5
+    	final String WALKING_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "walking.txt";//6
+    	final String YOGA_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "yoga.txt";//7
+    	
+    	//create files if needed
+    	try {
+			createFileIfNeeded(FITNESS_USER_PATH);
+			createFileIfNeeded(NEXT_ID_PATH);
+			createFileIfNeeded(WEIGHTS_PATH);
+			createFileIfNeeded(PULLUPS_PATH);
+			createFileIfNeeded(PUSHUPS_PATH);
+			createFileIfNeeded(RUNNING_PATH);
+			createFileIfNeeded(WALKING_PATH);
+			createFileIfNeeded(YOGA_PATH);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Internal IO error, contact support.","My Fitness Tracker - JavaBeaners",JOptionPane.ERROR_MESSAGE);
+		}
+    	
+    	//populate with user1 dummy content if needed.
+    	
+    	
+    }
+    /**
+     * checks to see if file does not exists if so creates a file at the specified path
+     * @param path
+     * @throws IOException
+     */
+    public static void createFileIfNeeded(String path) throws IOException{
+    	if(!fileExists(path)){
+    		File file = new File(path);
+    		// Works for both Windows and Linux
+    		file.getParentFile().mkdirs(); 
+    		file.createNewFile();    		
+    	}    	
+    }
+    
+    public static void loadSampleContent(String path, int type){
+    	final String FITNESS_USER_CONTENT = "100,Luis Velasco,chapibol,M,23,65,145,140\n";
+    	final String NEXT_ID_CONTENT = "101\n";
+    	final String WEIGHTS_CONTENT = "100,145,1447276622832\n";//userid,currentWeight,date
+    	final String PULLUPS_CONTENT = "100,1447276622832,10\n";//userid,date,reps
+    	final String PUSHUPS_CONTENT = "100,1447276622832,20\n";//userid,date,reps
+    	final String RUNNING_CONTENT = "100,1447276622832,1,145,35\n";//userid,date,distance,weight,duration(minutes)
+    	final String WALKING_CONTENT = "100,1447276622832,2,145,45\n";//userid,date,distance,weight,duration(minutes)
+    	final String YOGA_CONTENT = "100,1447276622832,145,30\n";
+    	
+    	//TODO load sample content to appropriate file 
+    }
+    
+    public static boolean isFileEmpty(String path) throws IOException{
+    	BufferedReader buffer = new BufferedReader(new FileReader(path));     
+    	return buffer.readLine() == null;
+    }
+    
+    public static boolean fileExists(String path){
+    	File aFile = new File(path);    	
+    	return aFile.exists() && !aFile.isDirectory();    	
+    }
     
     public static void loadFitnessUserInfo(List<FitnessUser> userList, String userDataPath){
     	try {
@@ -170,7 +240,7 @@ public class MyFitnessTrackerApp {
 			out.println(""+idToSave);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, "Internal error, please contact support");
+			JOptionPane.showMessageDialog(null, "Internal error, please contact support file not found.");
 		}finally{
 			out.close();
 		}    	
