@@ -9,8 +9,27 @@
  *
  * @author Daniel
  */
-public class PullUp {
-    public PullUp(){
+public class PullUp extends ExerciseActivity{
+   private int quantity;
+   
+   public PullUp(){
         
+   }
+   public PullUp(int quantity){
+        this.quantity = quantity;
+   }
+   
+   public int getQuantity(){
+      return quantity;
+   }
+   
+   public void setQuantity(int quantity) throws InvalidInputException{
+      if(quantity < 0 || quantity > 999){
+         throw new InvalidInputException("Error: Entry should be between 0 and 999");
+      }
+      this.quantity = quantity;
+   }
+   public double calculateCaloriesBurned(){
+      return 0.0;
     }
 }
