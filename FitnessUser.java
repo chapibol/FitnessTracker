@@ -9,7 +9,7 @@ import java.util.List;
 public class FitnessUser {
     private String name;
     private String userName;
-    private char gender;
+    private String gender;
     private int userId;
     private int age;
     private int height;
@@ -23,7 +23,7 @@ public class FitnessUser {
             numberOfUsers++;
     }
 
-    public FitnessUser(String name, String userName, char gender){
+    public FitnessUser(String name, String userName, String gender){
             this();
             this.name = name;
             this.userName = userName;
@@ -37,7 +37,7 @@ public class FitnessUser {
     public String getUsername(){
             return userName;
     }
-    public char getGender(){
+    public String getGender(){
             return gender;
     }
     public int getUserId(){
@@ -66,27 +66,27 @@ public class FitnessUser {
     }
 
     //Mutator methods are written below
-    /*setName returns false if input is empty
-              returns true and sets name if not empty */
-    public boolean setName(String name){
+    /*setName throws exception if string input is empty*/
+    public void setName(String name) throws InvalidInputException(){
             if(name.isEmpty()){
-                return false;
+                throw new InvalidInputException("Error: No name was entered.");
             }
             this.name = name;
-            return true;
     }
-    /*setUsername() returns false if input is empty
-                    returns true and sets userName if not empty */
-    public boolean setUsername(String username){
+    /*setUsername() throws exception if string input is empty*/
+    public void setUsername(String username) throws InvalidInputException(){
             if(username.isEmpty()){
-                return false;
+                throw new InvalidInputException("Error: No username was entered.");
             }
             userName = username;
-            return true;
     }
-    /**/
-    public void setGender(char gender){
-            this.gender = gender;
+    /*setGender() throws exception if input is empty, or not "M"/"F"*/
+    public void setGender(String gender){
+        if(gender.isEmpty()){
+            throw new InvalidInputException("Error: No gender was entered.");
+        }
+        
+        this.gender = gender;
     }
     public void setUserId(int userId){
             this.userId = userId;
