@@ -67,21 +67,21 @@ public class FitnessUser {
 
     //Mutator methods are written below
     /*setName throws exception if string input is empty*/
-    public void setName(String name) throws InvalidInputException(){
+    public void setName(String name) throws InvalidInputException{
             if(name == null || name.isEmpty()){
                 throw new InvalidInputException("Error: No name was entered.");
             }
             this.name = name;
     }
     /*setUsername() throws exception if string input is empty*/
-    public void setUsername(String username) throws InvalidInputException(){
+    public void setUsername(String username) throws InvalidInputException{
             if(username == null || username.isEmpty()){
                 throw new InvalidInputException("Error: No username was entered.");
             }
             userName = username;
     }
     /*setGender() throws exception if input is empty, or not "M"/"F"*/
-    public void setGender(String gender) throws InvalidInputException(){
+    public void setGender(String gender) throws InvalidInputException{
         if(gender == null || gender.isEmpty()){
             throw new InvalidInputException("Error: No gender was entered.");
         }
@@ -91,9 +91,18 @@ public class FitnessUser {
         this.gender = toUpperCase(gender);
     }
     
-    public void setUserId(int userId){
-            this.userId = userId;
+    /*setUserId() throws exception if userId is null or invalid number. sets userID*/
+    public void setUserId(int userId) throws InvalidInputException{
+        if(userId == null){
+            throw new InvalidInputException("Error: No UserId was entered");
+        }
+        else if(userId < 100 || userId > 999){
+            throw new InvalidInputException("Error: UserId must be between 100 and 999.");
+        }
+        this.userId = userId;
     }
+    
+    /**/
     public void setAge(int age){
             this.age = age;
     }
