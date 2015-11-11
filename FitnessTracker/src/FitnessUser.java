@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  *
- * @author Daniel de Souza
+ * @author Daniel
  */
 
 public class FitnessUser {
