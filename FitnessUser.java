@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Daniel
+ * @author Daniel de Souza
  */
 
 public class FitnessUser {
