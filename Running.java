@@ -25,4 +25,8 @@ public class Running {
     public void setDistance(double distance){
         this.distance = distance;
     }
+    
+    public double calculateCaloriesBurned(){
+         return 0.0;
+    }
 }
