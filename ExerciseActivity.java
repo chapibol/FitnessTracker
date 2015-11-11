@@ -10,10 +10,11 @@
  * @author Daniel
  */
 import java.util.Date;
-class ExerciseActivity {
+public abstract class ExerciseActivity {
     private int userId;
     private int duration;
     private Date date;
+    private double caloriesBurned;
     
     public ExerciseActivity(){
         
@@ -40,19 +41,19 @@ class ExerciseActivity {
     public void setUserId(int id){
         userId = id;
     }
-    public void setDuration(int duration){
-        this.duration = duration;
+    public void setDuration(int duration) throws InvalidInputException{
+      if(duration <= 0 || duration > 999){
+         throw new InvalidInputException("Error: Invalid entry.");
+      }
+      this.duration = duration;
     }
     public void setDate(Date date){
         this.date = date;
     }
     
-    public void calculateCaloriesBurned(){
-        
-    }
+    abstract double calculateCaloriesBurned();
     
     public String toString(){
         return "";
     }
 }
-
