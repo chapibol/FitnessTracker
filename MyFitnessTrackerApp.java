@@ -39,6 +39,11 @@ public class MyFitnessTrackerApp {
         List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
         //load users fitness user list from file if any.
         loadFitnessUserInfo(fitnessUserList,fitnessUsersPath);
+        int firstMenuOption = 0;
+        //display login screen
+        do{
+        	firstMenuOption = getFirstMenuOption();
+        }while(firstMenuOption != 3);
         
         
         
@@ -104,6 +109,33 @@ public class MyFitnessTrackerApp {
 		}
     }
     
+    
+    public static int getFirstMenuOption(){
+		int userChoice = 0;
+		do{
+			try{
+				userChoice = displayFirstMenu();
+				if (userChoice < 1 || userChoice > 3){
+					JOptionPane.showMessageDialog(null, "Invalid choice! Please enter a valid menu option.","My Fitness Tracker - JavaBeaners",JOptionPane.ERROR_MESSAGE);
+				}
+			}catch(NumberFormatException e){
+				//reset userChoice to 0 so that while condition can be checked again properly
+				userChoice = 0;
+				JOptionPane.showMessageDialog(null, "Invalid input! Please enter a valid menu option.","My Fitness Tracker - JavaBeaners",JOptionPane.ERROR_MESSAGE);
+			}			
+		}while(userChoice < 1 || userChoice > 3);
+		return userChoice;		
+	}
+    
+    public static int displayFirstMenu() throws NumberFormatException{
+		String menu  = "My Fitness Tracker \n"
+				+ "(1) Login (existing users)\n"
+				+ "(2) Create new account\n"
+				+ "(3) Exit Application";
+		int userChoice = Integer.parseInt(JOptionPane.showInputDialog(null,menu,"My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE));
+		
+		return userChoice;
+	}
     /**
      * Application method that reads in the next available id for use.
      * @param path
