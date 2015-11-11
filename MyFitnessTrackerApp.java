@@ -33,10 +33,6 @@ public class MyFitnessTrackerApp {
     	String weightsPath = ".src/weights.txt";
     	final int MAX_NUMBER_USERS = 20;
     	int nextId = 0;
- 
-    	nextId = readNextId(nextIdPath);
-    	nextId++;
-    	saveNextId(nextIdPath,nextId);
     	
     	System.out.println("nextId is: " + nextId);
     	//array list to hold all fitness user accounts for the application. initial capacity of 10
@@ -45,7 +41,7 @@ public class MyFitnessTrackerApp {
         
     }
     
-    public static void loadFitnessUserPersonalInfo(){
+    public static void loadFitnessUserPersonalInfo(List<FitnessUser> aList){
     	
     }
     
