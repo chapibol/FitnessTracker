@@ -11,22 +11,48 @@
  */
 public class Running {
     private double distance;
+    private double weight;
+    private int duration;
+
     
     public Running(){
         
     }
-    public Running(double distance){
+    public Running(double distance, double weight, int duration){
         this.distance = distance;
+        this.weight = weight;
+        this.duration = duration;
     }
     
     public double getDistance(){
         return distance;
     }
+    public int getDuration(){
+      return duration;
+    }
+    public double getWeight(){
+      return weight;
+    }
+    
+    public void setWeight(double weight){
+         this.weight = weight;
+    }
     public void setDistance(double distance){
         this.distance = distance;
     }
     
+    public void setDuration(int duration) throws InvalidInputException{
+      if(duration <= 0 || duration > 999){
+         throw new InvalidInputException("Error: Invalid entry.");
+      }
+      this.duration = duration;
+    }
+    
     public double calculateCaloriesBurned(){
-         return 0.0;
+         return (weight * .75) * distance;
+    }
+    
+    public String toString(){
+        return "";
     }
 }
