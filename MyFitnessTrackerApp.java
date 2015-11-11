@@ -12,8 +12,10 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -31,18 +33,35 @@ public class MyFitnessTrackerApp {
     	String nextIdPath = "./src/nextID.txt";
     	String fitnessUsersPath = "./src/fitnessUsers.txt";
     	String weightsPath = ".src/weights.txt";
-    	final int MAX_NUMBER_USERS = 20;
-    	int nextId = 0;
-    	
-    	System.out.println("nextId is: " + nextId);
+    	final int MAX_NUMBER_USERS = 50;
+    	int nextId = readNextId(nextIdPath);
     	//array list to hold all fitness user accounts for the application. initial capacity of 10
         List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
+        //load users fitness user list from file if any.
+                
              
         
     }
     
-    public static void loadFitnessUserPersonalInfo(List<FitnessUser> aList){
-    	
+    public static void loadFitnessUserPersonalInfo(List<FitnessUser> userList, String userDataPath){
+    	try {
+			BufferedReader buff = new BufferedReader(new FileReader(new File(userDataPath)));
+			Scanner scan = null;
+			String line = "";
+			String name = "";
+			
+			while((line = buff.readLine()) !=null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error,");
+		}
     }
     
     /**
