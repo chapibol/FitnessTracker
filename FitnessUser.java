@@ -1,5 +1,5 @@
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,8 +15,8 @@ public class FitnessUser {
     private int height;
     private double currentWeight;
     private double targetWeight;
-    private ArrayList<Activity> activities;
-    private ArrayList<WeightDatePair> weightDateList;
+    private List<Activity> activities;
+    private List<WeightDatePair> weightDateList;
     public static int numberOfUsers = 0;
 
     public FitnessUser(){
