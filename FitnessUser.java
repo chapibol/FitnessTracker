@@ -66,12 +66,25 @@ public class FitnessUser {
     }
 
     //Mutator methods are written below
-    public void setName(String name){
+    /*setName returns false if input is empty
+              returns true and sets name if not empty */
+    public boolean setName(String name){
+            if(name.isEmpty()){
+                return false;
+            }
             this.name = name;
+            return true;
     }
-    public void setUsername(String username){
+    /*setUsername() returns false if input is empty
+                    returns true and sets userName if not empty */
+    public boolean setUsername(String username){
+            if(username.isEmpty()){
+                return false;
+            }
             userName = username;
+            return true;
     }
+    /**/
     public void setGender(char gender){
             this.gender = gender;
     }
