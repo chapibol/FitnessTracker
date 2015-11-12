@@ -23,7 +23,6 @@ public abstract class ExerciseActivity {
         this.date = date;
     }
     
-    //Accessors below
     public int getUserId(){
         return userId;
     }
@@ -31,10 +30,18 @@ public abstract class ExerciseActivity {
         return date;
     }
     
-    //Mutators below
-    public void setUserId(int id){
-        userId = id;
+    /**
+     * sets userId if input is valid. If invalid, then throw InvalidInputException.
+     * @param userId
+     * @throws InvalidInputException
+     */
+    public void setUserId(int userId) throws InvalidInputException{
+        if(userId < 100 || userId > 999){
+            throw new InvalidInputException("Error: UserId must be between 100 and 999.");
+        }
+        this.userId = userId;
     }
+    
     public void setDate(Date date){
         this.date = date;
     }
