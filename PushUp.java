@@ -40,5 +40,4 @@ public class PushUp extends ExerciseActivity{
     public String toString(){
         return "";
     }
-    
 }
