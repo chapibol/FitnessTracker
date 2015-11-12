@@ -1,7 +1,14 @@
-     
-
-
+/*
+ * Class WeightDatePair
+ *
+ * 
+ * 
+ * 
+ * @author Daniel de Souza, Luis Velasco
+ */
+ 
 import java.util.Date;
+
 class WeightDatePair {
     private int userId;
     private double weight;
