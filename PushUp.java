@@ -16,6 +16,7 @@ public class PushUp extends ExerciseActivity{
         
     }
     public PushUp(int quantity){
+         super();
          this.quantity = quantity;
     }
     
@@ -40,6 +41,6 @@ public class PushUp extends ExerciseActivity{
     }
     
     public String toString(){
-        return "";
+        return "Pushup Reps: " + quantity + "\nCalories Burned: " + calculateCaloriesBurned();
     }
 }
