@@ -32,15 +32,22 @@ public class MyFitnessTrackerApp {
     
     public static void main(String[] args){
     	final int MAX_NUMBER_USERS = 50;
+    	final String FITNESS_USER_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "fitnessUsers.txt";
+    	final String NEXT_ID_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "nextID.txt";
     	//array list to hold all fitness user accounts for the application. initial capacity of 10
         List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
         initializeApplication(fitnessUserList);
+        int nextId = readNextId(NEXT_ID_PATH);
+        
+        
+        PullUp pu = new PullUp();
+    	System.out.print(pu instanceof PullUp );
         int firstMenuOption = 0;
         //display login screen
         
-        Date d = new Date();
-        
-        System.out.println(d.getTime());
+//        Date d = new Date();
+//        
+//        System.out.println(d.getTime());
         
         
         do{
@@ -90,12 +97,34 @@ public class MyFitnessTrackerApp {
 			createFileIfNeeded(RUNNING_PATH);
 			createFileIfNeeded(WALKING_PATH);
 			createFileIfNeeded(YOGA_PATH);
+			//LOAD DUMMY CONTENT TO FILES ONLY IF there is no user at all.
+			if(isFileEmpty(FITNESS_USER_PATH)){
+				loadSampleContent(FITNESS_USER_PATH,0);
+				loadSampleContent(NEXT_ID_PATH,1);				
+				loadSampleContent(WEIGHTS_PATH,2);			
+				loadSampleContent(PULLUPS_PATH,3);			
+				loadSampleContent(PUSHUPS_PATH,4);			
+				loadSampleContent(RUNNING_PATH,5);			
+				loadSampleContent(WALKING_PATH,6);			
+				loadSampleContent(YOGA_PATH,7);
+			}
+			//load fitness user info into application.
+			loadFitnessUserInfo(list,FITNESS_USER_PATH);
+			loadUserExcercises(list,PULLUPS_PATH,PUSHUPS_PATH,RUNNING_PATH,WALKING_PATH,YOGA_PATH);
+			
+					
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "Internal IO error, contact support.","My Fitness Tracker - JavaBeaners",JOptionPane.ERROR_MESSAGE);
-		}
+		}   	
     	
-    	//populate with user1 dummy content if needed.
+    }
+    
+    
+    public static void loadUserExcercises(List<FitnessUser> list,String pullupsPath,String pushupsPath ,String runningPath,String walkingPath,String yogaPath){
     	
+    }
+    
+    public static void loadRunningActivitiesFor(FitnessUser user, String runningPath ){
     	
     }
     /**
@@ -111,20 +140,59 @@ public class MyFitnessTrackerApp {
     		file.createNewFile();    		
     	}    	
     }
-    
+    /**
+     * Load sample dummy content to the application files
+     * @param path
+     * @param type
+     */
     public static void loadSampleContent(String path, int type){
-    	final String FITNESS_USER_CONTENT = "100,Luis Velasco,chapibol,M,23,65,145,140\n";
+    	final String FITNESS_USER_CONTENT = "100,Jhon Doe,jdoe,M,50,70,145,140\n";//userid,name,username,gender,age,height,currentWeight,targetWeight
     	final String NEXT_ID_CONTENT = "101\n";
     	final String WEIGHTS_CONTENT = "100,145,1447276622832\n";//userid,currentWeight,date
     	final String PULLUPS_CONTENT = "100,1447276622832,10\n";//userid,date,reps
     	final String PUSHUPS_CONTENT = "100,1447276622832,20\n";//userid,date,reps
     	final String RUNNING_CONTENT = "100,1447276622832,1,145,35\n";//userid,date,distance,weight,duration(minutes)
     	final String WALKING_CONTENT = "100,1447276622832,2,145,45\n";//userid,date,distance,weight,duration(minutes)
-    	final String YOGA_CONTENT = "100,1447276622832,145,30\n";
+    	final String YOGA_CONTENT = "100,1447276622832,145,30\n";//userId,date,weight,duration(minutes)
     	
-    	//TODO load sample content to appropriate file 
+    	switch (type) {
+        case 0:  writeContent(path,FITNESS_USER_CONTENT);
+                 break;
+        case 1:  writeContent(path,NEXT_ID_CONTENT);
+        		 break;
+        case 2:
+        		 writeContent(path,WEIGHTS_CONTENT);
+        		 break;
+        case 3:  writeContent(path,PULLUPS_CONTENT);
+        		 break;
+        case 4:  writeContent(path,PUSHUPS_CONTENT);
+        		 break;
+        case 5:  writeContent(path,RUNNING_CONTENT);
+        		 break;
+        case 6:  writeContent(path,WALKING_CONTENT);
+		 		 break;
+        case 7:  writeContent(path,YOGA_CONTENT);
+		 		 break;
+        default: JOptionPane.showMessageDialog(null, "No files were loaded with content.");
+        		break;
+    	}
     }
-    
+    /**
+     * Writes contents to specified file and particular content.
+     * @param path
+     * @param content
+     */
+    public static void writeContent(String path, String content){
+    	PrintWriter out = null;
+		try {
+			out = new PrintWriter(new FileOutputStream(new File(path)));
+			out.print(content);
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Internal error, please contact support file not found.");
+		}finally{
+			out.close();
+		}    	
+    }
     public static boolean isFileEmpty(String path) throws IOException{
     	BufferedReader buffer = new BufferedReader(new FileReader(path));     
     	return buffer.readLine() == null;
