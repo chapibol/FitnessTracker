@@ -17,6 +17,7 @@ public class Running extends ExerciseActivity{
         
     }
     public Running(double distance, double weight, int duration){
+        super();
         this.distance = distance;
         this.weight = weight;
         this.duration = duration;
@@ -72,6 +73,6 @@ public class Running extends ExerciseActivity{
     }
     
     public String toString(){
-        return "";
+        return "Running Distance: " + distance + " mile(s)\nCalories Burned: " + calculateCaloriesBurned();
     }
 }
