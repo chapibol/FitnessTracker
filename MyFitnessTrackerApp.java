@@ -1,14 +1,17 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-/**
- *
+ * MyFitnessTracker
+ * 11/11/2015
+ * 
+ * 
+ * This application was designed to help users keep track of weight loss
+ * through counting calories of several activities.
+ * 
+ * The program keeps track of up to 50 different users through the use of
+ * text files.
+ * 
  * @author Daniel de Souza, Luis Velasco
  */
+ 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
