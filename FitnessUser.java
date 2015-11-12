@@ -7,7 +7,8 @@
  * userName     height    
  * gender       currentWeight
  * userId       targetWeight
- *     
+ * activities   weightDateList
+ * 
  * @author Daniel de Souza, Luis Velasco
  */
 
@@ -37,7 +38,6 @@ public class FitnessUser {
             this.gender = gender;
     }
 
-    //Accessor methods are written below
     public String getName(){
             return name;
     }
@@ -62,34 +62,42 @@ public class FitnessUser {
     public double getTargetWeight(){
             return targetWeight;
     }
-//    public Activity[] getActivities(){
-//            return activities;
-//    }
-//    public WeightDatePair[] getWeightDateList(){
-//            return weightDateList;
-//    }
+   public List<ExerciseActivity> getActivities(){
+           return activities;
+   }
+   public List<WeightDatePair> getWeightDateList(){
+           return weightDateList;
+   }
     public static int getNumberOfUsers(){
             return numberOfUsers;
     }
 
-    //Mutator methods are written below
+    
     /*setName throws exception if string input is empty*/
     public void setName(String name) throws InvalidInputException{
-
             if(name == null || name.isEmpty()){
                 throw new InvalidInputException("Error: No name was entered.");
             }
             this.name = name;
     }
-    /*setUsername() throws exception if string input is empty*/
-
+    
+    /**
+     * sets userName if input is valid. If invalid, then throw InvalidInputException.
+     * @param username
+     * @throws InvalidInputException
+     */
     public void setUsername(String username) throws InvalidInputException{
             if(username == null || username.isEmpty()){
                 throw new InvalidInputException("Error: No username was entered.");
             }
             userName = username;
     }
-    /*setGender() throws exception if input is empty, or not "M"/"F"*/
+    
+    /**
+     * sets gender if input is valid. If invalid, then throw InvalidInputException.
+     * @param gender
+     * @throws InvalidInputException
+     */
     public void setGender(String gender) throws InvalidInputException{
 
         if(gender == null || gender.isEmpty()){
@@ -101,41 +109,80 @@ public class FitnessUser {
         this.gender = gender.toUpperCase();
     }
     
-    /*setUserId() throws exception if userId is null or invalid number. sets userID*/
-    public void setUserId(int userId) throws InvalidInputException{
-        if(userId < 100 || userId > 999){
-            throw new InvalidInputException("Error: UserId must be between 100 and 999.");
-        }
+    /**
+     * sets userId
+     * @param userId
+     */
+    public void setUserId(int userId){
         this.userId = userId;
     }
     
-    /**/
-    public void setAge(int age){
+    /**
+     * sets userName if input is valid. If invalid, then throw InvalidInputException.
+     * @param username
+     * @throws InvalidInputException
+     */
+    public void setAge(int age) throws InvalidInputException{
+            if(age < 18 || age > 120){
+               throw new InvalidInputException("Error: Enter a valid age. You must be at least 18 years old.");
+            }
             this.age = age;
     }
-    public void setHeight(int height){
+    
+    /**
+     * sets height if input is valid. If invalid, then throw InvalidInputException.
+     * @param height
+     * @throws InvalidInputException
+     */
+    public void setHeight(int height) throws InvalidInputException{
+            if(height < 10 || height > 100){
+               throw new InvalidInputException("Error: Enter a height between 10 and 100 inches.");
+            }
             this.height = height;
     }
-    public void setCurrentWeight(double currentWeight){
-            this.currentWeight = currentWeight;
+    
+    /**
+     * sets currentWeight if input is valid. If invalid, then throw InvalidInputException.
+     * @param currentWeight
+     * @throws InvalidInputException
+     */
+    public void setCurrentWeight(double currentWeight) throws InvalidInputException{
+         if(currentWeight <= 0 || currentWeight > 999){
+               throw new InvalidInputException("Error: Weight must be between 1 and 999.");
+         }    
+         this.currentWeight = currentWeight;
     }
-    public void setTargetWeight(double targetWeight){
-            this.targetWeight = targetWeight;
+    
+    /**
+     * sets targetWeight if input is valid. If invalid, then throw InvalidInputException.
+     * @param targetWeight
+     * @throws InvalidInputException
+     */
+    public void setTargetWeight(double targetWeight) throws InvalidInputException{
+        if(targetWeight <= 0 || targetWeight > 999){
+               throw new InvalidInputException("Error: Weight must be between 1 and 999.");
+         }    
+         this.targetWeight = targetWeight;
     }
 
-//    public void addExerciseActivity(Activity exercise){
-//            activities[i] = exercise;
-//    }
+   public void addExerciseActivity(ExerciseActivity exercise){
+           activities.add(exercise);
+   }
 
-//    public void addWeightDatePair(WeightDatePair weightDate){
-//            weightDateList[i] = weightDate;
-//    }
+   public void addWeightDatePair(WeightDatePair weightDate){
+           weightDateList.add(weightDate);
+   }
 
-//    public void setNumberOfUsers(int numberOfUsers){
-//            this.numberOfUsers = numberOfUsers;
-//    }
+   public void setNumberOfUsers(int numberOfUsers){
+           this.numberOfUsers = numberOfUsers;
+   }
 
    public String toString(){
-           return "Username: " + userName;
+           return "UserID: " + userId + "\nName: " + name
+                     + "\nUsername: " + userName
+                     + "\nGender: " + gender
+                     + "\nAge: " + age + "\nHeight: " + height
+                     + "\nCurrent Weight: " + currentWeight
+                     + "\nTarget Weight: " + targetWeight + "\n";
    }
 }
