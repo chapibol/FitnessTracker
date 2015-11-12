@@ -31,14 +31,10 @@ public abstract class ExerciseActivity {
     }
     
     /**
-     * sets userId if input is valid. If invalid, then throw InvalidInputException.
+     * sets userId
      * @param userId
-     * @throws InvalidInputException
      */
-    public void setUserId(int userId) throws InvalidInputException{
-        if(userId < 100 || userId > 999){
-            throw new InvalidInputException("Error: UserId must be between 100 and 999.");
-        }
+    public void setUserId(int userId){
         this.userId = userId;
     }
     
