@@ -135,7 +135,7 @@ public class FitnessUser {
 //            this.numberOfUsers = numberOfUsers;
 //    }
 
-//    public String toString(){
-//            return "Username: " + userName;
-//    }
+   public String toString(){
+           return "Username: " + userName;
+   }
 }
