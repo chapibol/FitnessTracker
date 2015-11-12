@@ -39,9 +39,7 @@ public class MyFitnessTrackerApp {
         initializeApplication(fitnessUserList);
         int nextId = readNextId(NEXT_ID_PATH);
         
-        
-        PullUp pu = new PullUp();
-    	System.out.print(pu instanceof PullUp );
+
         int firstMenuOption = 0;
         //display login screen
         
@@ -74,6 +72,7 @@ public class MyFitnessTrackerApp {
 //	aFile.createNewFile();
     /**
      * The purpose of this method is to load fitness users's data into application
+     * this data includes, fitness user personal info and all their info about activities performed
      * @return
      */
     public static void initializeApplication(List<FitnessUser> list){
@@ -119,13 +118,55 @@ public class MyFitnessTrackerApp {
     	
     }
     
-    
+    /**
+     * Method to load all of the activitie info for each user of the application
+     * @param list
+     * @param pullupsPath
+     * @param pushupsPath
+     * @param runningPath
+     * @param walkingPath
+     * @param yogaPath
+     */
     public static void loadUserExcercises(List<FitnessUser> list,String pullupsPath,String pushupsPath ,String runningPath,String walkingPath,String yogaPath){
-    	
+//    	for(FitnessUser fit: list){
+//    		loadRunningActivitiesFor(fit,runningPath);
+//    	}
     }
     
-    public static void loadRunningActivitiesFor(FitnessUser user, String runningPath ){
-    	
+    public static void loadRunningActivitiesFor(FitnessUser aUser, String runningPath ){
+    											//100,1447276622832,1,145,35
+    	try {
+			BufferedReader buff = new BufferedReader(new FileReader(new File(runningPath)));
+			Scanner scan = null;
+			String line = "";
+			int userId = 0;
+			long dateTime = 0;
+			double distance = 0.0;
+			double weight = 0;
+			int duration = 0;
+			//read lines
+			while((line = buff.readLine()) != null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+				dateTime = Long.parseLong(scan.next().trim());
+				distance = Double.parseDouble(scan.next().trim());
+				weight = Double.parseDouble(scan.next().trim());
+				duration = Integer.parseInt(scan.next().trim());
+				//create a running activity and add to the 
+				Running run = new Running(distance, weight, duration);
+				run.setUserId(userId);
+				
+				//run.setDate();TODO/SET Date
+			
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		}
     }
     /**
      * checks to see if file does not exists if so creates a file at the specified path
