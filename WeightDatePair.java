@@ -34,10 +34,22 @@ class WeightDatePair {
         return date;
     }
     
-    public void setUserId(int id){
-        userId = id;
+    /**
+     * sets userId if input is valid. If invalid, then throw InvalidInputException.
+     * @param userId
+     * @throws InvalidInputException
+     */
+    public void setUserId(int userId) throws InvalidInputException{
+        if(userId < 100 || userId > 999){
+            throw new InvalidInputException("Error: UserId must be between 100 and 999.");
+        }
+        this.userId = userId;
     }
-    
+    /**
+     * sets weight if input is valid. If invalid, then throw InvalidInputException.
+     * @param weight
+     * @throws InvalidInputException
+     */
     public void setWeight(double weight) throws InvalidInputException{
         if(weight <= 0 || weight > 999){
             throw new InvalidInputException("Error: Weight must be > 0 and <= 999.");
