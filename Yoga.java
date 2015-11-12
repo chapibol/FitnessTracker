@@ -15,6 +15,7 @@ public class Yoga extends ExerciseActivity{
         
     }
     public Yoga(int duration, double weight){
+      super();
       this.duration = duration;
       this.weight = weight;
     }   
@@ -55,6 +56,6 @@ public class Yoga extends ExerciseActivity{
     }
     
     public String toString(){
-    	return "Duration: " + getDuration();
+        return "Yoga Duration: " + duration + " minutes(s)\nCalories Burned: " + calculateCaloriesBurned();
     }
 }
