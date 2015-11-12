@@ -32,18 +32,34 @@ public class Running extends ExerciseActivity{
       return weight;
     }
     
-    public void setWeight() throws InvalidInputException{
+    /**
+     * sets weight if input is valid. If invalid, then throw InvalidInputException.
+     * @param weight
+     * @throws InvalidInputException
+     */
+    public void setWeight(double weight) throws InvalidInputException{
       if(weight <= 0 || weight > 999){
          throw new InvalidInputException("Error: Weight must be between 1 and 999.");
       }
       this.weight = weight;
     }
+    
+    /**
+     * sets distance if input is valid. If invalid, then throw InvalidInputException.
+     * @param distance
+     * @throws InvalidInputException
+     */
     public void setDistance(double distance) throws InvalidInputException{
         if(distance <= 0 || distance > 999){
             throw new InvalidInputException("Error: Distance must be between 1 and 999.");
         }
         this.distance = distance;
     }
+    /**
+     * sets duration if input is valid. If invalid, then throw InvalidInputException.
+     * @param duration
+     * @throws InvalidInputException
+     */
     public void setDuration(int duration) throws InvalidInputException{
       if(duration <= 0 || duration > 999){
          throw new InvalidInputException("Error: Distance must be between 1 and 999.");
