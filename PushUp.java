@@ -1,14 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-/**
+ * Class PushUp
  *
- * @author Daniel
+ * This class extends ExerciseActivity.
+ * It contains a calculation for calories burned during the activity.
+ * 
+ * @author Daniel de Souza, Luis Velasco
  */
+ 
 public class PushUp extends ExerciseActivity{
    private int quantity;
    public final double CAL_PER_PUSHUP = .825;
