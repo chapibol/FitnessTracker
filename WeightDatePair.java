@@ -1,7 +1,7 @@
 /*
  * Class WeightDatePair
  *
- * 
+ * This class allows the program to track weight loss/gain progress for each individual user.
  * 
  * 
  * @author Daniel de Souza, Luis Velasco
@@ -62,6 +62,6 @@ class WeightDatePair {
     }
     
    public String toString(){
-       return "ID: " + userId + " Weight: " + weight + " Date: " + date;
+       return "ID: " + userId + "\nWeight: " + weight + "\nDate: " + date;
    }
 }
