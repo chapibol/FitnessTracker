@@ -1,13 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Class Yoga
+ *
+ * This class extends ExerciseActivity.
+ * It contains a calculation for calories burned during the activity.
+ * 
+ * @author Daniel de Souza, Luis Velasco
  */
 
-/**
- *
- * @author Daniel
- */
 public class Yoga extends ExerciseActivity{
     private int duration;
     private double weight;
