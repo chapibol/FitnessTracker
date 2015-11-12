@@ -1,10 +1,17 @@
+/*
+ * Class FitnessUser
+ *
+ * This class represents each user of the application.
+ * It stores user:
+ * name         age
+ * userName     height    
+ * gender       currentWeight
+ * userId       targetWeight
+ *     
+ * @author Daniel de Souza, Luis Velasco
+ */
 
 import java.util.List;
-
-/**
- *
- * @author Daniel de Souza
- */
 
 public class FitnessUser {
     private String name;
