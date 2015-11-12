@@ -8,8 +8,8 @@
  */
 
 public class Yoga extends ExerciseActivity{
-	private double weight;
-    private int duration;    
+    private int duration;
+    private double weight;
     
     public Yoga(){
         
@@ -26,13 +26,24 @@ public class Yoga extends ExerciseActivity{
       return weight;
     }
     
+    /**
+     * sets duration if input is valid. If invalid, then throw InvalidInputException.
+     * @param duration
+     * @throws InvalidInputException
+     */
     public void setDuration(int duration) throws InvalidInputException{
       if(duration <= 0 || duration > 999){
          throw new InvalidInputException("Error: Duration must be between 1 and 999.");
       }
       this.duration = duration;
     }
-    public void setWeight() throws InvalidInputException{
+    
+    /**
+     * sets weight if input is valid. If invalid, then throw InvalidInputException.
+     * @param weight
+     * @throws InvalidInputException
+     */
+    public void setWeight(double weight) throws InvalidInputException{
       if(weight <= 0 || weight > 999){
          throw new InvalidInputException("Error: Weight must be between 1 and 999.");
       }
