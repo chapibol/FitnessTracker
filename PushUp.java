@@ -23,6 +23,11 @@ public class PushUp extends ExerciseActivity{
       return quantity;
    }
     
+    /**
+     * sets quantity if input is valid. If invalid, then throw InvalidInputException.
+     * @param quantity
+     * @throws InvalidInputException
+     */
     public void setQuantity(int quantity) throws InvalidInputException{
       if(quantity < 0 || quantity > 999){
          throw new InvalidInputException("Error: Entry should be between 0 and 999");
@@ -31,7 +36,6 @@ public class PushUp extends ExerciseActivity{
    }
    
     public double calculateCaloriesBurned(){
-         
          return quantity * CAL_PER_PUSHUP;
     }
     
