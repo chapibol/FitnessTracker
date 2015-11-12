@@ -1,14 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-/**
+ * Class ExerciseActivity
  *
- * @author Daniel
+ * This abstract class allows each subclass to inherit its calculateCaloriesBurned method.
+ * 
+ * @author Daniel de Souza, Luis Velasco
  */
+ 
 import java.util.Date;
 public abstract class ExerciseActivity {
     private int userId;
@@ -45,6 +42,6 @@ public abstract class ExerciseActivity {
     abstract double calculateCaloriesBurned();
     
     public String toString(){
-        return "";
+        return "UserID: " + userId;
     }
 }
