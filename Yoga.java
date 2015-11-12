@@ -8,8 +8,8 @@
  */
 
 public class Yoga extends ExerciseActivity{
-    private int duration;
-    private double weight;
+	private double weight;
+    private int duration;    
     
     public Yoga(){
         
