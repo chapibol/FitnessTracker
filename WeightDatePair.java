@@ -7,6 +7,8 @@
  * @author Daniel de Souza, Luis Velasco
  */
  
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 class WeightDatePair {
@@ -62,6 +64,9 @@ class WeightDatePair {
     }
     
    public String toString(){
-       return "ID: " + userId + "\nWeight: " + weight + "\nDate: " + date;
+      String stringDate = null;
+      SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+      stringDate = sdfr.format(date);
+      return "ID: " + userId + "\nWeight: " + weight + "\nDate: " + stringDate;
    }
 }
