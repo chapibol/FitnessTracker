@@ -6,7 +6,10 @@
  * @author Daniel de Souza, Luis Velasco
  */
  
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+
 public abstract class ExerciseActivity {
     private int userId;
     private Date date;
@@ -43,6 +46,9 @@ public abstract class ExerciseActivity {
     abstract double calculateCaloriesBurned();
     
     public String toString(){
-        return "UserID: " + userId;
+        String stringDate = null;
+        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
+        stringDate = sdfr.format(date);
+        return "ID: " + userId + "\nDate: " + stringDate;
     }
 }
