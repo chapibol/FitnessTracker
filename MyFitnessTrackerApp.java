@@ -88,6 +88,7 @@ public class MyFitnessTrackerApp {
 		final String RUNNING_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "running.txt";//5
 		final String WALKING_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "walking.txt";//6
 		final String YOGA_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "yoga.txt";//7
+		final String WEIGHT_DATE_PAIR_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "weight_dates.txt";//8
 
 		//create files if needed for all of the text files needed by the application
 		try {
@@ -99,6 +100,7 @@ public class MyFitnessTrackerApp {
 			createFileIfNeeded(RUNNING_PATH);
 			createFileIfNeeded(WALKING_PATH);
 			createFileIfNeeded(YOGA_PATH);
+			createFileIfNeeded(WEIGHT_DATE_PAIR_PATH);
 			//LOAD DUMMY CONTENT TO FILES ONLY IF there is no user at all.
 			if(isFileEmpty(FITNESS_USER_PATH)){
 				loadSampleContent(FITNESS_USER_PATH,0);
@@ -114,6 +116,8 @@ public class MyFitnessTrackerApp {
 			loadFitnessUserInfo(list,FITNESS_USER_PATH);
 			//load all user excersises from files
 			loadUserExcercises(list,PULLUPS_PATH,PUSHUPS_PATH,RUNNING_PATH,WALKING_PATH,YOGA_PATH);
+			
+			loadWeightDatePairs(list,WEIGHTS_PATH);
 
 
 		} catch (IOException e) {
@@ -138,6 +142,16 @@ public class MyFitnessTrackerApp {
 			loadRunningActivitiesFor(fit,runningPath);
 			loadWalkingActivitiesFor(fit,walkingPath);
 			loadYogaActivitiesFor(fit,yogaPath);
+		}
+	}
+	/**
+	 * Method to load weight date pairs for all users
+	 * @param list
+	 * @param weightDatePath
+	 */
+	public static void loadWeightDatePairs(List<FitnessUser> list, String weightDatePath){
+		for(FitnessUser fit: list){
+			loadWeightDatePairsFor(fit,weightDatePath);
 		}
 	}
 
@@ -191,9 +205,13 @@ public class MyFitnessTrackerApp {
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
 		}
 	}
-	
+	/**
+	 * Method to load walking activities for auser from specified path
+	 * @param aUser
+	 * @param runningPath
+	 */
 	public static void loadWalkingActivitiesFor(FitnessUser aUser, String runningPath ){
-		//100,1447276622832,1,145,35
+		//userid,date,distance,weight,duration(minutes)
 		try {
 			BufferedReader buff = new BufferedReader(new FileReader(new File(runningPath)));
 			Scanner scan = null;
@@ -237,9 +255,13 @@ public class MyFitnessTrackerApp {
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
 		}
 	}
-    
+    /**
+     * Metho to load pullups for aUser from specified path.
+     * @param aUser
+     * @param pullupPath
+     */
     public static void loadPullupActivitiesFor(FitnessUser aUser, String pullupPath ){
-    											//100,1447276622832,10
+    	//userid,date,reps										
     	try {
 			BufferedReader buff = new BufferedReader(new FileReader(new File(pullupPath)));
 			Scanner scan = null;
@@ -252,16 +274,17 @@ public class MyFitnessTrackerApp {
 				scan = new Scanner(line);
 				scan.useDelimiter(",");
 				userId = Integer.parseInt(scan.next().trim());
-            if(aUser.getUserId() == userId){
-               dateTime = Long.parseLong(scan.next().trim());
-				   quantity = Integer.parseInt(scan.next().trim());
-				   //create a pullup activity and add to the 
-				   PullUp pullup = new PullUp();
-               pullup.setQuantity(quantity);
-				   pullup.setUserId(userId);
-				   pullup.setDate(new Date(dateTime));
-               aUser.addExerciseActivity(pullup);
-            }
+				if(aUser.getUserId() == userId){
+					dateTime = Long.parseLong(scan.next().trim());
+					quantity = Integer.parseInt(scan.next().trim());
+					//create a pullup activity and add to the 
+					PullUp pullup = new PullUp();
+					pullup.setUserId(userId);
+					pullup.setDate(new Date(dateTime));
+					pullup.setQuantity(quantity);					
+					//add pullup to excercise activity list for aUser
+					aUser.addExerciseActivity(pullup);
+				}
 			}
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "File could not be found.");
@@ -273,9 +296,13 @@ public class MyFitnessTrackerApp {
          JOptionPane.showMessageDialog(null, "Internal error, invalid input");
       }
     }
-    
+    /**
+     * Method to load push up activities for aUser from specified files
+     * @param aUser
+     * @param pushupPath
+     */
     public static void loadPushupActivitiesFor(FitnessUser aUser, String pushupPath ){
-    											//100,1447276622832,20
+    	//"100,1447276622832,20\n";  userid,date,reps
     	try {
 			BufferedReader buff = new BufferedReader(new FileReader(new File(pushupPath)));
 			Scanner scan = null;
@@ -288,16 +315,17 @@ public class MyFitnessTrackerApp {
 				scan = new Scanner(line);
 				scan.useDelimiter(",");
 				userId = Integer.parseInt(scan.next().trim());
-            if(aUser.getUserId() == userId){
-               dateTime = Long.parseLong(scan.next().trim());
-				   quantity = Integer.parseInt(scan.next().trim());
-				   //create a pushup activity and add to the 
-				   PushUp pushup = new PushUp();
-               pushup.setQuantity(quantity);
-				   pushup.setUserId(userId);
-				   pushup.setDate(new Date(dateTime));
-               aUser.addExerciseActivity(pushup);
-            }
+	            if(aUser.getUserId() == userId){
+	            	   dateTime = Long.parseLong(scan.next().trim());
+					   quantity = Integer.parseInt(scan.next().trim());
+					   //create a pushup activity and add to the 
+					   PushUp pushup = new PushUp();
+					   pushup.setUserId(userId);
+					   pushup.setDate(new Date(dateTime));
+					   pushup.setQuantity(quantity);				   
+					   //add pushup to excercise activity
+					   aUser.addExerciseActivity(pushup);
+	            }
 			}
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "File could not be found.");
@@ -310,8 +338,13 @@ public class MyFitnessTrackerApp {
       }
     }
     
+    /**
+     * Method to load yoga activities for aUser from the specified path
+     * @param aUser
+     * @param yogaPath
+     */
     public static void loadYogaActivitiesFor(FitnessUser aUser, String yogaPath ){
-    											
+    	//"100,1447276622832,145,30\n" userId,date,weight,duration(minutes)										
     	try {
 			BufferedReader buff = new BufferedReader(new FileReader(new File(yogaPath)));
 
@@ -319,8 +352,6 @@ public class MyFitnessTrackerApp {
 			String line = "";
 			int userId = 0;
 			long dateTime = 0;
-
-			double distance = 0.0;
 			double weight = 0;
 			int duration = 0;
 
@@ -329,16 +360,18 @@ public class MyFitnessTrackerApp {
 				scan = new Scanner(line);
 				scan.useDelimiter(",");
 				userId = Integer.parseInt(scan.next().trim());
-				dateTime = Long.parseLong(scan.next().trim());
-				duration = Integer.parseInt(scan.next().trim());
-				weight = Double.parseDouble(scan.next().trim());
-				//create a yoga activity and add to the 
-				Yoga yoga = new Yoga();
-				yoga.setDuration(duration);
-				yoga.setWeight(weight);
-				yoga.setUserId(userId);
-				yoga.setDate(new Date(dateTime));
-				aUser.addExerciseActivity(yoga);			
+				if(userId == aUser.getUserId()){
+					dateTime = Long.parseLong(scan.next().trim());
+					weight = Double.parseDouble(scan.next().trim());
+					duration = Integer.parseInt(scan.next().trim());				
+					//create a yoga activity and add to the 
+					Yoga yoga = new Yoga();
+					yoga.setUserId(userId);
+					yoga.setDate(new Date(dateTime));
+					yoga.setWeight(weight);	
+					yoga.setDuration(duration);				
+					aUser.addExerciseActivity(yoga);
+				}							
 			}
 
 		} catch (FileNotFoundException e) {
@@ -351,6 +384,48 @@ public class MyFitnessTrackerApp {
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
 		}
 	}
+    
+    /**
+     * Method to load the weight date pairs corresponding to aUser from weight date pair file
+     * @param aUser
+     * @param weightDatePath
+     */
+    public static void loadWeightDatePairsFor(FitnessUser aUser, String weightDatePath){
+    	try {                                            //"100,145,1447276622832\n"
+			BufferedReader buff = new BufferedReader(new FileReader(new File(weightDatePath)));
+			Scanner scan = null;
+			String line = "";
+			int userId = 0;
+			double weight = 0;
+			long dateTime = 0;
+			//read lines
+			while((line = buff.readLine()) != null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+	            if(aUser.getUserId() == userId){
+	            	weight = Integer.parseInt(scan.next().trim());
+	                dateTime = Long.parseLong(scan.next().trim());
+					   
+					//create a weight date pair object 
+					WeightDatePair wd = new WeightDatePair();
+			        wd.setUserId(userId);
+					wd.setWeight(weight);
+					wd.setDate(new Date(dateTime));
+					 
+	                aUser.addWeightDatePair(wd);
+	            }
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		} catch (InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Internal error, invalid input");
+      }
+    }
 	
 	/**
 	 * Load sample dummy content for one user to the application files
@@ -366,23 +441,24 @@ public class MyFitnessTrackerApp {
 		final String RUNNING_CONTENT = "100,1447276622832,1,145,35\n";//userid,date,distance,weight,duration(minutes)
 		final String WALKING_CONTENT = "100,1447276622832,2,145,45\n";//userid,date,distance,weight,duration(minutes)
 		final String YOGA_CONTENT = "100,1447276622832,145,30\n";//userId,date,weight,duration(minutes)
+		
 
 		switch (type) {
-		case 0:  writeContent(path,FITNESS_USER_CONTENT);
+		case 0:  writeSampleContent(path,FITNESS_USER_CONTENT);
 				 break;
-		case 1:  writeContent(path,NEXT_ID_CONTENT);
+		case 1:  writeSampleContent(path,NEXT_ID_CONTENT);
 				 break;
-		case 2:	 writeContent(path,WEIGHTS_CONTENT);
+		case 2:	 writeSampleContent(path,WEIGHTS_CONTENT);
 				 break;
-		case 3:  writeContent(path,PULLUPS_CONTENT);
+		case 3:  writeSampleContent(path,PULLUPS_CONTENT);
 				 break;
-		case 4:  writeContent(path,PUSHUPS_CONTENT);
+		case 4:  writeSampleContent(path,PUSHUPS_CONTENT);
 				 break;
-		case 5:  writeContent(path,RUNNING_CONTENT);
+		case 5:  writeSampleContent(path,RUNNING_CONTENT);
 				 break;
-		case 6:  writeContent(path,WALKING_CONTENT);
+		case 6:  writeSampleContent(path,WALKING_CONTENT);
 				 break;
-		case 7:  writeContent(path,YOGA_CONTENT);
+		case 7:  writeSampleContent(path,YOGA_CONTENT);
 				 break;
 		default: JOptionPane.showMessageDialog(null, "No files were loaded with content.");
 				 break;
@@ -404,11 +480,11 @@ public class MyFitnessTrackerApp {
     }
    
     /**
-     * Writes contents to specified file and particular content.
+     * Writes sample content to files if needed.
      * @param path
      * @param content
      */
-    public static void writeContent(String path, String content){
+    public static void writeSampleContent(String path, String content){
     	PrintWriter out = null;
 		try {
 			out = new PrintWriter(new FileOutputStream(new File(path)));
