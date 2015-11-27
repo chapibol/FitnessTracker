@@ -73,6 +73,6 @@ public class Running extends ExerciseActivity{
     }
     
     public String toString(){
-        return "Running Distance: " + distance + " mile(s)\nCalories Burned: " + calculateCaloriesBurned();
+        return "UserID: " + super.getUserId() + " Running Distance: " + distance + " mile(s)\nCalories Burned: " + calculateCaloriesBurned();
     }
 }

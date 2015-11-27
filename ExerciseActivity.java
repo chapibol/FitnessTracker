@@ -11,6 +11,7 @@ public abstract class ExerciseActivity {
     private int userId;
     private Date date;
     
+    
     public ExerciseActivity(){
         
     }

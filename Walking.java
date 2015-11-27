@@ -17,7 +17,7 @@ public class Walking extends ExerciseActivity{
         
     }
     public Walking(double distance){
-         super();
+        super();
         this.distance = distance;
     }
     
@@ -70,6 +70,6 @@ public class Walking extends ExerciseActivity{
     }
     
     public String toString(){
-        return "Walking Distance: " + distance + " mile(s)\nCalories Burned: " + calculateCaloriesBurned();
+        return "UserID: " + super.getUserId() + " Walking Distance: " + distance + " mile(s)\nCalories Burned: " + calculateCaloriesBurned();
     }
 }

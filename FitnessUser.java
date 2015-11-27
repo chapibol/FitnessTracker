@@ -12,6 +12,7 @@
  * @author Daniel de Souza, Luis Velasco
  */
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FitnessUser {
@@ -29,6 +30,7 @@ public class FitnessUser {
 
     public FitnessUser(){
             numberOfUsers++;
+            activities = new ArrayList<ExerciseActivity>(10);
     }
 
     public FitnessUser(String name, String userName, String gender){
