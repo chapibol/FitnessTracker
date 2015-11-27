@@ -5,6 +5,7 @@
  * It contains a calculation for calories burned during the activity.
  * 
  * @author Daniel de Souza, Luis Velasco
+   100,1447276622832,145,30
  */
 
 public class Yoga extends ExerciseActivity{
@@ -56,6 +57,6 @@ public class Yoga extends ExerciseActivity{
     }
     
     public String toString(){
-        return super.toString() + "\nYoga Duration: " + duration + " minutes(s)\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
+        return super.toString() + "\nYoga Duration: " + duration + " minutes(s)" + "\nWeight: " + weight + " lbs\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }
 }
