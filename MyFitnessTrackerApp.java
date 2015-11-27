@@ -168,6 +168,118 @@ public class MyFitnessTrackerApp {
 			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
 		}
     }
+    
+    public static void loadPullupActivitiesFor(FitnessUser aUser, String pullupPath ){
+    											//100,1447276622832,10
+    	try {
+			BufferedReader buff = new BufferedReader(new FileReader(new File(pullupPath)));
+			Scanner scan = null;
+			String line = "";
+			int userId = 0;
+			long dateTime = 0;
+			int quantity = 0;
+			//read lines
+			while((line = buff.readLine()) != null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+            if(aUser.getUserId() == userId){
+               dateTime = Long.parseLong(scan.next().trim());
+				   quantity = Integer.parseInt(scan.next().trim());
+				   //create a pullup activity and add to the 
+				   PullUp pullup = new PullUp();
+               pullup.setQuantity(quantity);
+				   pullup.setUserId(userId);
+				   pullup.setDate(new Date(dateTime));
+               aUser.addExerciseActivity(pullup);
+            }
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		} catch (InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Internal error, invalid input");
+      }
+    }
+    
+    public static void loadPushupActivitiesFor(FitnessUser aUser, String pushupPath ){
+    											//100,1447276622832,20
+    	try {
+			BufferedReader buff = new BufferedReader(new FileReader(new File(pushupPath)));
+			Scanner scan = null;
+			String line = "";
+			int userId = 0;
+			long dateTime = 0;
+			int quantity = 0;
+			//read lines
+			while((line = buff.readLine()) != null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+            if(aUser.getUserId() == userId){
+               dateTime = Long.parseLong(scan.next().trim());
+				   quantity = Integer.parseInt(scan.next().trim());
+				   //create a pushup activity and add to the 
+				   PushUp pushup = new PushUp();
+               pushup.setQuantity(quantity);
+				   pushup.setUserId(userId);
+				   pushup.setDate(new Date(dateTime));
+               aUser.addExerciseActivity(pushup);
+            }
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		} catch (InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Internal error, invalid input");
+      }
+    }
+    
+    public static void loadYogaActivitiesFor(FitnessUser aUser, String yogaPath ){
+    											//100,1447276622832,145,30
+    	try {
+			BufferedReader buff = new BufferedReader(new FileReader(new File(yogaPath)));
+			Scanner scan = null;
+			String line = "";
+			int userId = 0;
+			long dateTime = 0;
+			int duration = 0;
+			double weight = 0;
+			//read lines
+			while((line = buff.readLine()) != null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+				dateTime = Long.parseLong(scan.next().trim());
+				duration = Integer.parseInt(scan.next().trim());
+				weight = Double.parseDouble(scan.next().trim());
+				//create a yoga activity and add to the 
+				Yoga yoga = new Yoga();
+            yoga.setDuration(duration);
+            yoga.setWeight(weight);
+				yoga.setUserId(userId);
+				yoga.setDate(new Date(dateTime));
+            aUser.addExerciseActivity(yoga);
+			
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		} catch (InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Internal error, invalid input");
+      }
+
+    }
+    
     /**
      * checks to see if file does not exists if so creates a file at the specified path
      * @param path
