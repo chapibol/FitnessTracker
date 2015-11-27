@@ -70,6 +70,6 @@ public class Walking extends ExerciseActivity{
     }
     
     public String toString(){
-        return "UserID: " + super.getUserId() + " Walking Distance: " + distance + " mile(s)\nCalories Burned: " + calculateCaloriesBurned();
+        return super.toString() + "\nWalking Distance: " + distance + " mile(s)\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }
 }
