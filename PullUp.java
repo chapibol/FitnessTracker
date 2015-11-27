@@ -40,6 +40,6 @@ public class PullUp extends ExerciseActivity{
     }
     
     public String toString(){
-        return "Pullup Reps: " + quantity + "\nCalories Burned: " + calculateCaloriesBurned();
+        return super.toString() + "\nPullup Reps: " + quantity + "\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }
 }
