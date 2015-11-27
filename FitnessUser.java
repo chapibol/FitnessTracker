@@ -31,6 +31,7 @@ public class FitnessUser {
     public FitnessUser(){
             numberOfUsers++;
             activities = new ArrayList<ExerciseActivity>(10);
+            weightDateList = new ArrayList<WeightDatePair>(10);
     }
 
     public FitnessUser(String name, String userName, String gender){
