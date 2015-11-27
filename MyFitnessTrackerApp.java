@@ -40,9 +40,9 @@ public class MyFitnessTrackerApp {
 		int nextId = readNextId(NEXT_ID_PATH);
 
 
-//		        for(ExerciseActivity ex: fitnessUserList.get(0).getActivities()){
-//		        	System.out.println(ex.toString());
-//		        }
+		        for(ExerciseActivity ex: fitnessUserList.get(0).getActivities()){
+		        	System.out.println(ex.toString());
+		        }
 		//        int firstMenuOption = 0;
 		//        //display login screen
 		//        
@@ -112,6 +112,7 @@ public class MyFitnessTrackerApp {
 			}
 			//load fitness user info into application.
 			loadFitnessUserInfo(list,FITNESS_USER_PATH);
+			//load all user excersises from files
 			loadUserExcercises(list,PULLUPS_PATH,PUSHUPS_PATH,RUNNING_PATH,WALKING_PATH,YOGA_PATH);
 
 
@@ -132,8 +133,11 @@ public class MyFitnessTrackerApp {
 	 */
 	public static void loadUserExcercises(List<FitnessUser> list,String pullupsPath,String pushupsPath ,String runningPath,String walkingPath,String yogaPath){
 		for(FitnessUser fit: list){
+			loadPullupActivitiesFor(fit,pullupsPath);
+			loadPushupActivitiesFor(fit,pushupsPath);
 			loadRunningActivitiesFor(fit,runningPath);
 			loadWalkingActivitiesFor(fit,walkingPath);
+			loadYogaActivitiesFor(fit,yogaPath);
 		}
 	}
 
@@ -187,15 +191,11 @@ public class MyFitnessTrackerApp {
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
 		}
 	}
-	/**
-	 * Method to load all of the walking activities for the aUser that are stored in the files
-	 * @param aUser
-	 * @param walkingPath
-	 */
-	public static void loadWalkingActivitiesFor(FitnessUser aUser, String walkingPath ){
+	
+	public static void loadWalkingActivitiesFor(FitnessUser aUser, String runningPath ){
 		//100,1447276622832,1,145,35
 		try {
-			BufferedReader buff = new BufferedReader(new FileReader(new File(walkingPath)));
+			BufferedReader buff = new BufferedReader(new FileReader(new File(runningPath)));
 			Scanner scan = null;
 			String line = "";
 			int userId = 0;
@@ -237,19 +237,121 @@ public class MyFitnessTrackerApp {
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
 		}
 	}
-	/**
-	 * checks to see if file does not exists if so creates a file at the specified path
-	 * @param path
-	 * @throws IOException
-	 */
-	public static void createFileIfNeeded(String path) throws IOException{
-		if(!fileExists(path)){
-			File file = new File(path);
-			// Works for both Windows and Linux
-			file.getParentFile().mkdirs(); 
-			file.createNewFile();    		
-		}    	
+    
+    public static void loadPullupActivitiesFor(FitnessUser aUser, String pullupPath ){
+    											//100,1447276622832,10
+    	try {
+			BufferedReader buff = new BufferedReader(new FileReader(new File(pullupPath)));
+			Scanner scan = null;
+			String line = "";
+			int userId = 0;
+			long dateTime = 0;
+			int quantity = 0;
+			//read lines
+			while((line = buff.readLine()) != null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+            if(aUser.getUserId() == userId){
+               dateTime = Long.parseLong(scan.next().trim());
+				   quantity = Integer.parseInt(scan.next().trim());
+				   //create a pullup activity and add to the 
+				   PullUp pullup = new PullUp();
+               pullup.setQuantity(quantity);
+				   pullup.setUserId(userId);
+				   pullup.setDate(new Date(dateTime));
+               aUser.addExerciseActivity(pullup);
+            }
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		} catch (InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Internal error, invalid input");
+      }
+    }
+    
+    public static void loadPushupActivitiesFor(FitnessUser aUser, String pushupPath ){
+    											//100,1447276622832,20
+    	try {
+			BufferedReader buff = new BufferedReader(new FileReader(new File(pushupPath)));
+			Scanner scan = null;
+			String line = "";
+			int userId = 0;
+			long dateTime = 0;
+			int quantity = 0;
+			//read lines
+			while((line = buff.readLine()) != null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+            if(aUser.getUserId() == userId){
+               dateTime = Long.parseLong(scan.next().trim());
+				   quantity = Integer.parseInt(scan.next().trim());
+				   //create a pushup activity and add to the 
+				   PushUp pushup = new PushUp();
+               pushup.setQuantity(quantity);
+				   pushup.setUserId(userId);
+				   pushup.setDate(new Date(dateTime));
+               aUser.addExerciseActivity(pushup);
+            }
+			}
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		} catch (InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Internal error, invalid input");
+      }
+    }
+    
+    public static void loadYogaActivitiesFor(FitnessUser aUser, String yogaPath ){
+    											
+    	try {
+			BufferedReader buff = new BufferedReader(new FileReader(new File(yogaPath)));
+
+			Scanner scan = null;
+			String line = "";
+			int userId = 0;
+			long dateTime = 0;
+
+			double distance = 0.0;
+			double weight = 0;
+			int duration = 0;
+
+			//read lines
+			while((line = buff.readLine()) != null){
+				scan = new Scanner(line);
+				scan.useDelimiter(",");
+				userId = Integer.parseInt(scan.next().trim());
+				dateTime = Long.parseLong(scan.next().trim());
+				duration = Integer.parseInt(scan.next().trim());
+				weight = Double.parseDouble(scan.next().trim());
+				//create a yoga activity and add to the 
+				Yoga yoga = new Yoga();
+				yoga.setDuration(duration);
+				yoga.setWeight(weight);
+				yoga.setUserId(userId);
+				yoga.setDate(new Date(dateTime));
+				aUser.addExerciseActivity(yoga);			
+			}
+
+		} catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "File could not be found.");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
+		} catch (NumberFormatException e){
+			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+		} catch (InvalidInputException e){
+			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
+		}
 	}
+	
 	/**
 	 * Load sample dummy content for one user to the application files
 	 * @param path (path of the file to be filled)
@@ -267,32 +369,47 @@ public class MyFitnessTrackerApp {
 
 		switch (type) {
 		case 0:  writeContent(path,FITNESS_USER_CONTENT);
-		break;
+				 break;
 		case 1:  writeContent(path,NEXT_ID_CONTENT);
-		break;
+				 break;
 		case 2:	 writeContent(path,WEIGHTS_CONTENT);
-		break;
+				 break;
 		case 3:  writeContent(path,PULLUPS_CONTENT);
-		break;
+				 break;
 		case 4:  writeContent(path,PUSHUPS_CONTENT);
-		break;
+				 break;
 		case 5:  writeContent(path,RUNNING_CONTENT);
-		break;
+				 break;
 		case 6:  writeContent(path,WALKING_CONTENT);
-		break;
+				 break;
 		case 7:  writeContent(path,YOGA_CONTENT);
-		break;
+				 break;
 		default: JOptionPane.showMessageDialog(null, "No files were loaded with content.");
-		break;
+				 break;
 		}
 	}
-	/**
-	 * Writes contents to specified file and particular content.
-	 * @param path (path to the file in which to write content)
-	 * @param content
-	 */
-	public static void writeContent(String path, String content){
-		PrintWriter out = null;
+	    
+    /**
+     * checks to see if file does not exists if so creates a file at the specified path
+     * @param path
+     * @throws IOException
+     */
+    public static void createFileIfNeeded(String path) throws IOException{
+    	if(!fileExists(path)){
+    		File file = new File(path);
+    		// Works for both Windows and Linux
+    		file.getParentFile().mkdirs(); 
+    		file.createNewFile();    		
+    	}    	
+    }
+   
+    /**
+     * Writes contents to specified file and particular content.
+     * @param path
+     * @param content
+     */
+    public static void writeContent(String path, String content){
+    	PrintWriter out = null;
 		try {
 			out = new PrintWriter(new FileOutputStream(new File(path)));
 			out.print(content);
