@@ -41,6 +41,6 @@ public class PushUp extends ExerciseActivity{
     }
     
     public String toString(){
-        return "Pushup Reps: " + quantity + "\nCalories Burned: " + calculateCaloriesBurned();
+        return super.toString() + "\nPushup Reps: " + quantity + "\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }
 }
