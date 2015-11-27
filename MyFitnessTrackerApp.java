@@ -43,6 +43,10 @@ public class MyFitnessTrackerApp {
 		        for(ExerciseActivity ex: fitnessUserList.get(0).getActivities()){
 		        	System.out.println(ex.toString());
 		        }
+		        System.out.println();
+		        for(WeightDatePair wd: fitnessUserList.get(0).getWeightDateList()){
+		        	System.out.println(wd.toString());
+		        }
 		//        int firstMenuOption = 0;
 		//        //display login screen
 		//        
@@ -641,5 +645,4 @@ public class MyFitnessTrackerApp {
 			out.close();
 		}    	
 	}
-
 }
