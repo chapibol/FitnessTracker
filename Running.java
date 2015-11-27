@@ -5,6 +5,7 @@
  * It contains a calculation for calories burned during the activity.
  * 
  * @author Daniel de Souza, Luis Velasco
+   100,1447276622832,1,145,35
  */
 
 public class Running extends ExerciseActivity{
@@ -73,6 +74,8 @@ public class Running extends ExerciseActivity{
     }
     
     public String toString(){
-        return super.toString() + "\nRunning Distance: " + distance + " mile(s)\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
+        return super.toString() + "\nRunning Distance: " + String.format("%.2f", distance) + " mile(s)\n" 
+                                 + "Weight: " + weight+ " lbs\n" + "Duration: " + duration + " minute(s)" 
+                                 + "\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }
 }
