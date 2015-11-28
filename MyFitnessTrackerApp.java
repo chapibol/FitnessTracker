@@ -43,7 +43,14 @@ public class MyFitnessTrackerApp {
 		        		        
 		        
 		        do{
-		        	
+		        	firstMenuOption = getFirstMenuOption();
+		        	if(firstMenuOption == 1){
+		        		FitnessUser a = login(fitnessUserList);
+		        	}else if (firstMenuOption == 2){
+		        		createNewAccount(fitnessUserList,NEXT_ID_PATH);
+		        	}else if(firstMenuOption == 3){
+		        		JOptionPane.showMessageDialog(null, "GoodBye!");
+		        	}
 		        }while(firstMenuOption != 3);
 
 //		        for(FitnessUser fit: fitnessUserList){
@@ -594,7 +601,7 @@ public class MyFitnessTrackerApp {
     *
     *
     */
-   public static void createNewAccount(List<FitnessUser> fitnessUserList){
+   public static void createNewAccount(List<FitnessUser> fitnessUserList,String userIdPath){
       FitnessUser newUser = new FitnessUser();
       
       boolean doesUsernameExist = false;
@@ -630,7 +637,14 @@ public class MyFitnessTrackerApp {
       }
       int height = Integer.parseInt(JOptionPane.showInputDialog("Enter your height in inches"));
       double currWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your current weight?"));
-      double tarWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your target weight?"));                      
+      double tarWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your target weight?"));
+      
+      FitnessUser user = new FitnessUser();
+      int userId = readNextId(userIdPath);
+      user.setUserId(userId);
+      userId++;
+      saveNextId(userIdPath,userId);
+      fitnessUserList.add(user);
    }
    
    /**NEW*********************************************
