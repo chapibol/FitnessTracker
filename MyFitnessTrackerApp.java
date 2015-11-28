@@ -38,28 +38,13 @@ public class MyFitnessTrackerApp {
 		List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
 		initializeApplication(fitnessUserList);
 		int nextId = readNextId(NEXT_ID_PATH);
-
-			for(FitnessUser fit: fitnessUserList){//NEW
-               			System.out.println(fit);
-              		}
-		        for(ExerciseActivity ex: fitnessUserList.get(0).getActivities()){
-		        	System.out.println(ex.toString());
-		        }
-		        System.out.println();
-		        for(WeightDatePair wd: fitnessUserList.get(0).getWeightDateList()){
-		        	System.out.println(wd.toString());
-		        }
-		//        int firstMenuOption = 0;
-		//        //display login screen
-		//        
-		////        Date d = new Date();
-		////        
-		////        System.out.println(d.getTime());
-		//        
-		//        
-		//        do{
-		//        	firstMenuOption = getFirstMenuOption();
-		//        }while(firstMenuOption != 3);
+		int firstMenuOption = 0;
+	
+		        
+		        
+		        do{
+		        	firstMenuOption = getFirstMenuOption();
+		        }while(firstMenuOption != 3);
 
 
 
@@ -67,18 +52,16 @@ public class MyFitnessTrackerApp {
 
 
 
-		//        for(FitnessUser fit: fitnessUserList){
-		//        	System.out.println("Userid: " + fit.getUserId() + " Name: " + fit.getName() + "\n" +
-		//        					"username: " + fit.getUsername() + " gender: " + fit.getGender() + "\n"
-		//        					+ "age: " + fit.getAge() + " height: " + fit.getHeight() + " currentWeight: " + fit.getCurrentWeight() +
-		//        					" target Weight: " + fit.getTargetWeight());
-		//        	System.out.println("--------------------------------------------");
-		//        }
+//		        for(FitnessUser fit: fitnessUserList){
+//		        	System.out.println("Userid: " + fit.getUserId() + " Name: " + fit.getName() + "\n" +
+//		        					"username: " + fit.getUsername() + " gender: " + fit.getGender() + "\n"
+//		        					+ "age: " + fit.getAge() + " height: " + fit.getHeight() + " currentWeight: " + fit.getCurrentWeight() +
+//		        					" target Weight: " + fit.getTargetWeight());
+//		        	System.out.println("--------------------------------------------");
+//		        }
 
 
 	} 
-	//    aFile.getParentFile().mkdirs(); 
-	//	aFile.createNewFile();
 	/**
 	 * The purpose of this method is to load fitness users's data into application
 	 * this data includes, fitness user personal info and all their info about activities performed
@@ -439,7 +422,7 @@ public class MyFitnessTrackerApp {
 	 * @param type (the type of content to be filled)
 	 */
 	public static void loadSampleContent(String path, int type){
-		final String FITNESS_USER_CONTENT = "100,Jhon Doe,jdoe,5435/*NEW*/,M,50,70,145,140\n";//userid,name,username,password,gender,age,height,currentWeight,targetWeight
+		final String FITNESS_USER_CONTENT = "100,Jhon Doe,jdoe,1234,M,50,70,145,140\n";//userid,name,username,password,gender,age,height,currentWeight,targetWeight
 		final String NEXT_ID_CONTENT = "101\n";
 		final String WEIGHTS_CONTENT = "100,145,1447276622832\n";//userid,currentWeight,date
 		final String PULLUPS_CONTENT = "100,1447276622832,10\n";//userid,date,reps
@@ -534,7 +517,7 @@ public class MyFitnessTrackerApp {
 			int userId = 0;
 			String name = "";
 			String username = "";
-			String password "";
+			String password = "";
 			String gender = "";
 			int age = 0;
 			int height = 0;
