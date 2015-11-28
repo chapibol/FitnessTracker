@@ -84,7 +84,7 @@ public class FitnessUser {
     /*setName throws exception if string input is empty*/
     public void setName(String name) throws InvalidInputException{
             if(name == null || name.isEmpty()){
-                throw new InvalidInputException("Error: No name was entered.");
+                throw new InvalidInputException("No name was entered.");
             }
             this.name = name;
     }
@@ -96,7 +96,7 @@ public class FitnessUser {
      */
     public void setUsername(String username) throws InvalidInputException{
             if(username == null || username.isEmpty()){
-                throw new InvalidInputException("Error: No username was entered.");
+                throw new InvalidInputException("No username was entered.");
             }
             userName = username;
     }
@@ -108,7 +108,7 @@ public class FitnessUser {
      */
     public void setPassword(String password) throws InvalidInputException{
             if(password == null || password.isEmpty()){
-                throw new InvalidInputException("Error: No password was entered.");
+                throw new InvalidInputException("No password was entered.");
             }
             this.password = password;
     }
@@ -121,10 +121,10 @@ public class FitnessUser {
     public void setGender(String gender) throws InvalidInputException{
 
         if(gender == null || gender.isEmpty()){
-            throw new InvalidInputException("Error: No gender was entered.");
+            throw new InvalidInputException("No gender was entered.");
         }
         else if(!gender.equalsIgnoreCase("M") & !gender.equalsIgnoreCase("F")){
-            throw new InvalidInputException("Error: Invalid entry.");
+            throw new InvalidInputException("Invalid entry.");
         }
         this.gender = gender.toUpperCase();
     }
@@ -144,7 +144,7 @@ public class FitnessUser {
      */
     public void setAge(int age) throws InvalidInputException{
             if(age < 18 || age > 120){
-               throw new InvalidInputException("Error: Enter a valid age. You must be at least 18 years old.");
+               throw new InvalidInputException("Enter a valid age between 18 and 120.");
             }
             this.age = age;
     }
@@ -156,7 +156,7 @@ public class FitnessUser {
      */
     public void setHeight(int height) throws InvalidInputException{
             if(height < 10 || height > 100){
-               throw new InvalidInputException("Error: Enter a height between 10 and 100 inches.");
+               throw new InvalidInputException("Enter a height between 10 and 100 inches.");
             }
             this.height = height;
     }
@@ -168,7 +168,7 @@ public class FitnessUser {
      */
     public void setCurrentWeight(double currentWeight) throws InvalidInputException{
          if(currentWeight <= 0 || currentWeight > 999){
-               throw new InvalidInputException("Error: Weight must be between 1 and 999.");
+               throw new InvalidInputException("Weight must be between 1 and 999.");
          }    
          this.currentWeight = currentWeight;
     }
@@ -180,7 +180,7 @@ public class FitnessUser {
      */
     public void setTargetWeight(double targetWeight) throws InvalidInputException{
         if(targetWeight <= 0 || targetWeight > 999){
-               throw new InvalidInputException("Error: Weight must be between 1 and 999.");
+               throw new InvalidInputException("Weight must be between 1 and 999.");
          }    
          this.targetWeight = targetWeight;
     }
@@ -195,6 +195,12 @@ public class FitnessUser {
 
    public void setNumberOfUsers(int numberOfUsers){
            this.numberOfUsers = numberOfUsers;
+   }
+   
+   //userid,name,username,password,gender,age,height,currentWeight,targetWeight
+   //used for writing to the fitness user text file
+   public String stringWriter(){
+      return userId + "," + name + "," + userName + "," + password + "," + gender + "," + age + "," + height + "," + currentWeight + "," + targetWeight;
    }
 
    public String toString(){
