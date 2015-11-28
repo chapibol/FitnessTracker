@@ -39,7 +39,9 @@ public class MyFitnessTrackerApp {
 		initializeApplication(fitnessUserList);
 		int nextId = readNextId(NEXT_ID_PATH);
 
-
+			for(FitnessUser fit: fitnessUserList){//NEW
+               			System.out.println(fit);
+              		}
 		        for(ExerciseActivity ex: fitnessUserList.get(0).getActivities()){
 		        	System.out.println(ex.toString());
 		        }
@@ -437,7 +439,7 @@ public class MyFitnessTrackerApp {
 	 * @param type (the type of content to be filled)
 	 */
 	public static void loadSampleContent(String path, int type){
-		final String FITNESS_USER_CONTENT = "100,Jhon Doe,jdoe,M,50,70,145,140\n";//userid,name,username,gender,age,height,currentWeight,targetWeight
+		final String FITNESS_USER_CONTENT = "100,Jhon Doe,jdoe,5435/*NEW*/,M,50,70,145,140\n";//userid,name,username,password,gender,age,height,currentWeight,targetWeight
 		final String NEXT_ID_CONTENT = "101\n";
 		final String WEIGHTS_CONTENT = "100,145,1447276622832\n";//userid,currentWeight,date
 		final String PULLUPS_CONTENT = "100,1447276622832,10\n";//userid,date,reps
@@ -532,6 +534,7 @@ public class MyFitnessTrackerApp {
 			int userId = 0;
 			String name = "";
 			String username = "";
+			String password "";
 			String gender = "";
 			int age = 0;
 			int height = 0;
@@ -544,13 +547,14 @@ public class MyFitnessTrackerApp {
 				userId = Integer.parseInt(scan.next().trim());
 				name = scan.next();
 				username = scan.next();
+				password = scan.next();//New
 				gender = scan.next();
 				age = Integer.parseInt(scan.next().trim());
 				height = Integer.parseInt(scan.next().trim());;
 				currentWeight = Double.parseDouble(scan.next().trim());
 				targetWeight = Double.parseDouble(scan.next().trim());
 				//create and populate a FitnessUser object for the current line
-				FitnessUser aUser = new FitnessUser(name, username, gender);
+				FitnessUser aUser = new FitnessUser(name, username, password, gender);//NEW
 				aUser.setUserId(userId);
 				aUser.setAge(age);
 				aUser.setHeight(height);
