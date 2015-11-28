@@ -18,6 +18,7 @@ import java.util.List;
 public class FitnessUser {
     private String name;
     private String userName;
+    private String password;
     private String gender;
     private int userId;
     private int age;
@@ -46,6 +47,9 @@ public class FitnessUser {
     }
     public String getUsername(){
             return userName;
+    }
+    public String getPassword(){
+            return password;
     }
     public String getGender(){
             return gender;
@@ -94,6 +98,18 @@ public class FitnessUser {
                 throw new InvalidInputException("Error: No username was entered.");
             }
             userName = username;
+    }
+    
+    /**
+     * sets password if input is valid. If invalid, then throw InvalidInputException.
+     * @param password
+     * @throws InvalidInputException
+     */
+    public void setPassword(String password) throws InvalidInputException{
+            if(password == null || password.isEmpty()){
+                throw new InvalidInputException("Error: No password was entered.");
+            }
+            this.password = password;
     }
     
     /**
@@ -183,6 +199,7 @@ public class FitnessUser {
    public String toString(){
            return "UserID: " + userId + "\nName: " + name
                      + "\nUsername: " + userName
+                     + "\nPassword: " + password
                      + "\nGender: " + gender
                      + "\nAge: " + age + "\nHeight: " + height
                      + "\nCurrent Weight: " + currentWeight
