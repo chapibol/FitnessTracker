@@ -35,10 +35,11 @@ public class FitnessUser {
             weightDateList = new ArrayList<WeightDatePair>(10);
     }
 
-    public FitnessUser(String name, String userName, String gender){
+    public FitnessUser(String name, String userName, String password, String gender){
             this();
             this.name = name;
             this.userName = userName;
+            this.password = password;
             this.gender = gender;
     }
 
