@@ -5,6 +5,7 @@
  * 
  * 
  * @author Daniel de Souza, Luis Velasco
+   100,145,1447276622832
  */
  
 import java.text.DateFormat;
@@ -43,7 +44,7 @@ class WeightDatePair {
      */
     public void setUserId(int userId) throws InvalidInputException{
         if(userId < 100 || userId > 999){
-            throw new InvalidInputException("Error: UserId must be between 100 and 999.");
+            throw new InvalidInputException("UserId must be between 100 and 999.");
         }
         this.userId = userId;
     }
@@ -54,7 +55,7 @@ class WeightDatePair {
      */
     public void setWeight(double weight) throws InvalidInputException{
         if(weight <= 0 || weight > 999){
-            throw new InvalidInputException("Error: Weight must be > 0 and <= 999.");
+            throw new InvalidInputException("Weight must be > 0 and <= 999.");
         }
         this.weight = weight;
     }
