@@ -593,6 +593,68 @@ public class MyFitnessTrackerApp {
 
 		return userChoice;
 	}
+	
+	/**NEW*********************************************
+    * Method to create a new user account
+    * @return FitnessUser
+    *
+    *
+    */
+   public static void createNewAccount(){
+      FitnessUser newUser = new FitnessUser();
+      
+      boolean doesUsernameExist = false;
+      String username = "";
+      do{
+         username = getUsername(2);
+         doesUsernameExist = usernameExists(username, fitnessUserList);
+         if(doesUsernameExist){
+            JOptionPane.showMessageDialog(null, "Username already exists.");         
+         }
+      }while(doesUsernameExist);
+      
+      String password = getPassword(2);
+      
+      String name = JOptionPane.showInputDialog("Enter your name");
+      
+      Object[] genders = {"Male",
+                       "Female"};
+         
+      // 0 = male, 1 = female
+      int gender = JOptionPane.showOptionDialog(null,
+                     "Choose a gender",
+                     "hoose an option",
+                     JOptionPane.YES_NO_OPTION,
+                     JOptionPane.QUESTION_MESSAGE,
+                     null,
+                     genders,
+                     genders[0]);
+      try{
+         int age = Integer.parseInt(JOptionPane.showInputDialog("Enter your age"));
+      }catch(NumberFormatException e){
+         JOptionPane.showMessageDialog(null, "Invalid Input: Must be a number");
+      }
+      int height = Integer.parseInt(JOptionPane.showInputDialog("Enter your height in inches"));
+      double currWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your current weight?"));
+      double tarWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your target weight?"));                      
+   }
+   
+   /**NEW*********************************************
+    * Method to create a new user account
+    * @return FitnessUser
+    *
+    *
+    */
+   public static boolean usernameExists(String username, List<FitnessUser> list){
+      boolean exists = false;
+      for(FitnessUser fit: list){
+         if(fit.getUsername().equals(username)){
+            exists = true;
+         }
+      }
+      return exists;
+   }
+	
 	/**
 	 * Application method that reads in the next available id for use.
 	 * @param path
