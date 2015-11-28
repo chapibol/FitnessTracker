@@ -37,20 +37,14 @@ public class MyFitnessTrackerApp {
 		//array list to hold all fitness user accounts for the application. initial capacity of 10
 		List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
 		initializeApplication(fitnessUserList);
-		int nextId = readNextId(NEXT_ID_PATH);
+		Integer nextId = readNextId(NEXT_ID_PATH);
 		int firstMenuOption = 0;
 	
-		        
+		        		        
 		        
 		        do{
-		        	firstMenuOption = getFirstMenuOption();
+		        	
 		        }while(firstMenuOption != 3);
-
-
-
-
-
-
 
 //		        for(FitnessUser fit: fitnessUserList){
 //		        	System.out.println("Userid: " + fit.getUserId() + " Name: " + fit.getName() + "\n" +
@@ -530,7 +524,7 @@ public class MyFitnessTrackerApp {
 				userId = Integer.parseInt(scan.next().trim());
 				name = scan.next();
 				username = scan.next();
-				password = scan.next();//New
+				password = scan.next().trim();//New
 				gender = scan.next();
 				age = Integer.parseInt(scan.next().trim());
 				height = Integer.parseInt(scan.next().trim());;
@@ -693,5 +687,97 @@ public class MyFitnessTrackerApp {
 		}finally{
 			out.close();
 		}    	
+	}
+	
+	public static FitnessUser login(List<FitnessUser> userList){
+		String username = getUsername(1);//1 for existing users
+		String password = getPassword(1);
+		
+		FitnessUser aUser = authenticateUsernameAndPassword(userList, username, password);
+		if(aUser != null){
+			JOptionPane.showMessageDialog(null, "Log in Success! Welcome user: " + aUser.getUsername() + "!","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+		}else{
+			JOptionPane.showMessageDialog(null, "Log in Unsuccessful, either password or username did not match.","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+		}
+		
+		return aUser;
+	} 
+	
+	/**
+	 * Method to authenticate username and password, returns the matching fitness user or null if no match.
+	 * @param userList
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public static FitnessUser authenticateUsernameAndPassword(List<FitnessUser>userList, String username, String password){
+		
+		for(FitnessUser fit: userList){
+			if(fit.getUsername().equals(username) && fit.getPassword().equals(password)){
+				return fit;
+			}
+		}
+		
+		return null;
+	}
+	/**
+	 * Method to get a valid username from the user
+	 * @param type 1 for existing user prompt 2 for new user prompt
+	 * @return valid username
+	 */
+	public static String getUsername(int type){
+		String prompt = "";
+		String username = "";
+		boolean isUsernameValid = false;
+		//determine what type of prompt
+		if(type == 1){
+			prompt = "Enter your username";
+		}else if(type == 2){
+			prompt = "Create a username";
+		}else{
+			prompt = "Enter a username";
+		}
+		
+		//prompt for username until a valid one is entered
+		do{
+			username = JOptionPane.showInputDialog(null,prompt,"My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+			isUsernameValid = Utility.isStringDataValid(username);
+			
+			if(!isUsernameValid){
+				JOptionPane.showMessageDialog(null, "Error please enter a valid username","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}while(!isUsernameValid);
+		
+		return username;
+	}
+	/**
+	 * Method to get a valid password from the user.
+	 * @param type
+	 * @return
+	 */
+	public static String getPassword(int type){
+		String prompt = "";
+		String password = "";
+		boolean isPasswordValid = false;
+		//determine what type of prompt
+		if(type == 1){
+			prompt = "Enter your password";
+		}else if(type == 2){
+			prompt = "Create a password (password must be at least 4 characters and is case sensitive)";
+		}else{
+			prompt = "Enter a password";
+		}
+		
+		//prompt for username until a valid one is entered
+		do{
+			password = JOptionPane.showInputDialog(null,prompt,"My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+			isPasswordValid = Utility.isPasswordValid(password);
+			
+			if(!isPasswordValid){
+				JOptionPane.showMessageDialog(null, "Error please enter a valid password","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+			}
+		}while(!isPasswordValid);
+		
+		return password;
 	}
 }
