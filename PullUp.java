@@ -5,6 +5,7 @@
  * It contains a calculation for calories burned during the activity.
  * 
  * @author Daniel de Souza, Luis Velasco
+   100,1447276622832,10
  */
 
 public class PullUp extends ExerciseActivity{
@@ -30,7 +31,7 @@ public class PullUp extends ExerciseActivity{
      */
    public void setQuantity(int quantity) throws InvalidInputException{
       if(quantity < 0 || quantity > 999){
-         throw new InvalidInputException("Error: Entry should be between 0 and 999");
+         throw new InvalidInputException("Entry should be between 0 and 999");
       }
       this.quantity = quantity;
    }
