@@ -35,7 +35,7 @@ public class Yoga extends ExerciseActivity{
      */
     public void setDuration(int duration) throws InvalidInputException{
       if(duration <= 0 || duration > 999){
-         throw new InvalidInputException("Error: Duration must be between 1 and 999.");
+         throw new InvalidInputException("Duration must be between 1 and 999.");
       }
       this.duration = duration;
     }
@@ -47,16 +47,16 @@ public class Yoga extends ExerciseActivity{
      */
     public void setWeight(double weight) throws InvalidInputException{
       if(weight <= 0 || weight > 999){
-         throw new InvalidInputException("Error: Weight must be between 1 and 999.");
+         throw new InvalidInputException("Weight must be between 1 and 999.");
       }
       this.weight = weight;
     }
         
     public double calculateCaloriesBurned(){
-         return (weight * .45359237) * 3 * (duration / 60);
+         return ((weight * 0.45359237) * 3) * ((double)duration / 60);
     }
     
     public String toString(){
-        return super.toString() + "\nYoga Duration: " + duration + " minutes(s)" + "\nWeight: " + weight + " lbs\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
+        return super.toString() + "\nYoga Duration: " + duration + " minutes(s)\nWeight: " + weight + " lbs\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }
 }
