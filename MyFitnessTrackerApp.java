@@ -17,11 +17,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -32,7 +34,7 @@ public class MyFitnessTrackerApp {
 
 	public static void main(String[] args){
 		final int MAX_NUMBER_USERS = 50;
-		//final String FITNESS_USER_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "fitnessUsers.txt";
+		final String FITNESS_USER_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "fitnessUsers.txt";
 		final String NEXT_ID_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "nextID.txt";
 		//array list to hold all fitness user accounts for the application. initial capacity of 10
 		List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
@@ -47,7 +49,8 @@ public class MyFitnessTrackerApp {
 		        	if(firstMenuOption == 1){
 		        		FitnessUser a = login(fitnessUserList);
 		        	}else if (firstMenuOption == 2){
-		        		createNewAccount(fitnessUserList,NEXT_ID_PATH);
+		        		FitnessUser newUser = createNewAccount(fitnessUserList,NEXT_ID_PATH);
+                  			appendToFile(FITNESS_USER_PATH, newUser.stringWriter());
 		        	}else if(firstMenuOption == 3){
 		        		JOptionPane.showMessageDialog(null, "GoodBye!");
 		        	}
@@ -595,28 +598,48 @@ public class MyFitnessTrackerApp {
 		return userChoice;
 	}
 	
-	/**NEW*********************************************
+   /**NEW*********************************************
     * Method to create a new user account
     * @return FitnessUser
     *
     *
     */
-   public static void createNewAccount(List<FitnessUser> fitnessUserList,String userIdPath){
+   public static FitnessUser createNewAccount(List<FitnessUser> fitnessUserList,String userIdPath){
       FitnessUser newUser = new FitnessUser();
       
-      boolean doesUsernameExist = false;
+      boolean usernameCheck = false;
       String username = "";
       do{
-         username = getUsername(2);
-         doesUsernameExist = usernameExists(username, fitnessUserList);
-         if(doesUsernameExist){
-            JOptionPane.showMessageDialog(null, "Username already exists.");         
+         try{
+            username = getUsername(2);
+            usernameCheck = usernameExists(username, fitnessUserList);
+            newUser.setUsername(username);
+            if(usernameCheck){
+               JOptionPane.showMessageDialog(null, "Username already exists.");         
+            }
+         }catch(InvalidInputException e){
+            JOptionPane.showMessageDialog(null, "Invalid Input: Empty");
          }
-      }while(doesUsernameExist);
+      }while(usernameCheck);
       
       String password = getPassword(2);
+      try{
+         newUser.setPassword(password);
+      }catch(InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Invalid Input: Empty");
+      }
       
-      String name = JOptionPane.showInputDialog("Enter your name");
+      boolean nameCheck = false;
+      String name = "";
+      do{
+      try{
+         name = JOptionPane.showInputDialog("Enter your name");
+         newUser.setName(name);
+         nameCheck = true;
+      }catch(InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Invalid Input: Empty");
+      }
+      }while(!nameCheck);
       
       Object[] genders = {"Male",
                        "Female"};
@@ -631,20 +654,99 @@ public class MyFitnessTrackerApp {
                      genders,
                      genders[0]);
       try{
-         int age = Integer.parseInt(JOptionPane.showInputDialog("Enter your age"));
+         if(gender == 0){
+            newUser.setGender("M");
+         }
+         else{
+            newUser.setGender("F");
+         }
+      }catch(InvalidInputException e){
+         JOptionPane.showMessageDialog(null, "Invalid Input: Must be 'M' or 'F'");
+      }
+      
+      boolean ageCheck = false;
+      int age = 0;
+      do{
+      try{
+         age = Integer.parseInt(JOptionPane.showInputDialog("Enter your age"));
+         newUser.setAge(age);
+         ageCheck = true;
       }catch(NumberFormatException e){
          JOptionPane.showMessageDialog(null, "Invalid Input: Must be a number");
+      }catch(InvalidInputException e){
+         JOptionPane.showMessageDialog(null, e);
       }
-      int height = Integer.parseInt(JOptionPane.showInputDialog("Enter your height in inches"));
-      double currWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your current weight?"));
-      double tarWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your target weight?"));
+      }while(!ageCheck);
       
-      FitnessUser user = new FitnessUser();
+      boolean heightCheck = false;
+      int height = 0;
+      do{
+      try{
+         height = Integer.parseInt(JOptionPane.showInputDialog("Enter your height in inches"));
+         newUser.setHeight(height);
+         heightCheck = true;
+      }catch(NumberFormatException e){
+         JOptionPane.showMessageDialog(null, "Invalid Input: Must be a number");
+      }catch(InvalidInputException e){
+         JOptionPane.showMessageDialog(null, e);
+      }
+      }while(!heightCheck);
+      
+      boolean curWeightCheck = false;
+      double currWeight = 0;
+      do{
+      try{
+         currWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your current weight?"));
+         newUser.setCurrentWeight(currWeight);
+          curWeightCheck = true;
+      }catch(NumberFormatException e){
+         JOptionPane.showMessageDialog(null, "Invalid Input: Must be a number");
+      }catch(InvalidInputException e){
+         JOptionPane.showMessageDialog(null, e);
+      }
+      }while(!curWeightCheck);
+      
+      boolean tarWeightCheck = false;
+      double tarWeight = 0;
+      do{
+      try{
+         tarWeight = Double.parseDouble(JOptionPane.showInputDialog("What is your target weight?"));
+         newUser.setTargetWeight(tarWeight);
+         tarWeightCheck = true;
+      }catch(NumberFormatException e){
+         JOptionPane.showMessageDialog(null, "Invalid Input: Must be a number");
+      }catch(InvalidInputException e){
+         JOptionPane.showMessageDialog(null, e);
+      }
+      }while(!tarWeightCheck);
+      
       int userId = readNextId(userIdPath);
-      user.setUserId(userId);
+      newUser.setUserId(userId);
       userId++;
       saveNextId(userIdPath,userId);
-      fitnessUserList.add(user);
+      fitnessUserList.add(newUser);
+      
+      return newUser;
+   }
+   
+   //appends string content to file path
+   public static void appendToFile(String path, String content) {
+ 
+   	BufferedWriter out = null;
+ 
+   	try {
+         	out = new BufferedWriter(new FileWriter(path, true));
+        	out.write(content);
+         	out.newLine();
+      	} catch (IOException e) {
+         	JOptionPane.showMessageDialog(null, e);
+      	} finally {   
+         	try{
+         		out.close();
+         	}catch(IOException e){
+            		JOptionPane.showMessageDialog(null, e);
+         	}
+      	}	
    }
    
    /**NEW*********************************************
