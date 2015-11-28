@@ -41,7 +41,7 @@ public class Running extends ExerciseActivity{
      */
     public void setWeight(double weight) throws InvalidInputException{
       if(weight <= 0 || weight > 999){
-         throw new InvalidInputException("Error: Weight must be between 1 and 999.");
+         throw new InvalidInputException("Weight must be between 1 and 999.");
       }
       this.weight = weight;
     }
@@ -53,7 +53,7 @@ public class Running extends ExerciseActivity{
      */
     public void setDistance(double distance) throws InvalidInputException{
         if(distance <= 0 || distance > 999){
-            throw new InvalidInputException("Error: Distance must be between 1 and 999.");
+            throw new InvalidInputException("Distance must be between 1 and 999.");
         }
         this.distance = distance;
     }
@@ -64,7 +64,7 @@ public class Running extends ExerciseActivity{
      */
     public void setDuration(int duration) throws InvalidInputException{
       if(duration <= 0 || duration > 999){
-         throw new InvalidInputException("Error: Distance must be between 1 and 999.");
+         throw new InvalidInputException("Distance must be between 1 and 999.");
       }
       this.duration = duration;
     }
