@@ -600,7 +600,7 @@ public class MyFitnessTrackerApp {
     *
     *
     */
-   public static void createNewAccount(){
+   public static void createNewAccount(List<FitnessUser> fitnessUserList){
       FitnessUser newUser = new FitnessUser();
       
       boolean doesUsernameExist = false;
