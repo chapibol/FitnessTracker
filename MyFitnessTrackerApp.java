@@ -45,7 +45,6 @@ public class MyFitnessTrackerApp {
 		int secondMenuOption = 0;
 		FitnessUser currentUser = null;//variable to hold the user currently logged in
 
-
 		do{
 			firstMenuOption = getFirstMenuOption();
 			if(firstMenuOption == 1){
@@ -53,6 +52,18 @@ public class MyFitnessTrackerApp {
 				//only procede with user operations if log in was successful
 				if(currentUser != null){
 					secondMenuOption = getSecondMenuOption();
+					switch(secondMenuOption){
+					case 1:	viewProfile(currentUser);
+						break;
+					case 2:
+						break;
+					case 3:
+						break;
+					case 4: JOptionPane.showMessageDialog(null, "Good Bye " + currentUser.getUsername() + "!");
+						break;
+					default:
+						break;
+					}
 				}				
 			}else if (firstMenuOption == 2){
 				FitnessUser newUser = createNewAccount(fitnessUserList,NEXT_ID_PATH,FITNESS_USER_PATH,WEIGHTS_PATH);
@@ -71,7 +82,14 @@ public class MyFitnessTrackerApp {
 		//		        }
 
 
-	} 
+	}
+	/**
+	 * The purpose of this method is to display the fitUser's profile
+	 * @param fitUser
+	 */
+	public static void viewProfile(FitnessUser fitUser){
+		
+	}
 	/**
 	 * The purpose of this method is to load fitness users's data into application
 	 * this data includes, fitness user personal info and all their info about activities performed
@@ -199,7 +217,7 @@ public class MyFitnessTrackerApp {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
 		} catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+			JOptionPane.showMessageDialog(null, "Internal error (running) Number Format Exception, Id, height, weight error");
 		} catch (InvalidInputException e){
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
 		}
@@ -249,7 +267,7 @@ public class MyFitnessTrackerApp {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
 		} catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+			JOptionPane.showMessageDialog(null, "Internal error (walking) Number Format Exception, Id, height, weight error");
 		} catch (InvalidInputException e){
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
 		}
@@ -290,7 +308,7 @@ public class MyFitnessTrackerApp {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
 		} catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+			JOptionPane.showMessageDialog(null, "Internal error (pullups) Number Format Exception, Id, height, weight error");
 		} catch (InvalidInputException e){
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input");
 		}
@@ -331,7 +349,7 @@ public class MyFitnessTrackerApp {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
 		} catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+			JOptionPane.showMessageDialog(null, "Internal error (pushups) Number format Exception, Id, height, weight error");
 		} catch (InvalidInputException e){
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input");
 		}
@@ -378,7 +396,7 @@ public class MyFitnessTrackerApp {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
 		} catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+			JOptionPane.showMessageDialog(null, "Internal error (yoga) Number format Exception, Id, height, weight error");
 		} catch (InvalidInputException e){
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input.");
 		}
@@ -403,7 +421,7 @@ public class MyFitnessTrackerApp {
 				scan.useDelimiter(",");
 				userId = Integer.parseInt(scan.next().trim());
 				if(aUser.getUserId() == userId){
-					weight = Integer.parseInt(scan.next().trim());
+					weight = Double.parseDouble(scan.next().trim());
 					dateTime = Long.parseLong(scan.next().trim());
 
 					//create a weight date pair object 
@@ -420,7 +438,7 @@ public class MyFitnessTrackerApp {
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, "IO Exception contact suppport.");
 		} catch (NumberFormatException e){
-			JOptionPane.showMessageDialog(null, "Internal error, Id, height, weight error");
+			JOptionPane.showMessageDialog(null, "Internal error (weightDate Pair) Number Format, Id, height, weight error");
 		} catch (InvalidInputException e){
 			JOptionPane.showMessageDialog(null, "Internal error, invalid input");
 		}
@@ -859,9 +877,9 @@ public class MyFitnessTrackerApp {
 		
 		FitnessUser aUser = authenticateUsernameAndPassword(userList, username, password);
 		if(aUser != null){
-			JOptionPane.showMessageDialog(null, "Log in Success! Welcome " + aUser.getUsername() + "!","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Log in Success! \nWelcome " + aUser.getUsername() + "!","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
 		}else{
-			JOptionPane.showMessageDialog(null, "Log in Unsuccessful, either password or username did not match.","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Log in Unsuccessful! \nEither password or username did not match.","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
 		}
 
 		return aUser;
