@@ -64,6 +64,10 @@ class WeightDatePair {
         this.date = date;
     }
     
+    public String stringWriter(){
+      return userId + "," + Double.toString(weight) + "," + date;
+    }
+    
    public String toString(){
       String stringDate = null;
       SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
