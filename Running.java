@@ -12,11 +12,11 @@ public class Running extends ExerciseActivity{
     private double distance;
     private double weight;
     private int duration;
-
     
     public Running(){
         
     }
+    
     public Running(double distance, double weight, int duration){
         super();
         this.distance = distance;
@@ -27,9 +27,11 @@ public class Running extends ExerciseActivity{
     public double getDistance(){
         return distance;
     }
+    
     public int getDuration(){
       return duration;
     }
+    
     public double getWeight(){
       return weight;
     }
