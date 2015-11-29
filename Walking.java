@@ -71,7 +71,7 @@ public class Walking extends ExerciseActivity{
     }
     
     public String stringWriter(){
-      return super.getUserId() + "," + super.getDate() + "," + distance  + "," + Double.toString(weight) + "," + duration;
+      return super.getUserId() + "," + super.getDate().getTime() + "," + distance  + "," + Double.toString(weight) + "," + duration;
     }
     
     public String toString(){

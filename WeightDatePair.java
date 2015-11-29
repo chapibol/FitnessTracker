@@ -65,6 +65,7 @@ class WeightDatePair {
     }
     
     public String stringWriter(){
+
       return userId + "," + weight + "," + date.getTime();
     }
     

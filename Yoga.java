@@ -57,7 +57,7 @@ public class Yoga extends ExerciseActivity{
     }
     
     public String stringWriter(){
-      return super.getUserId() + "," + super.getDate() + "," + Double.toString(weight) + "," + duration;
+      return super.getUserId() + "," + super.getDate().getTime() + "," + Double.toString(weight) + "," + duration;
     }
     
     public String toString(){

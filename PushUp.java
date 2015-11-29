@@ -42,7 +42,7 @@ public class PushUp extends ExerciseActivity{
     }
     
     public String stringWriter(){
-      return super.getUserId() + "," + super.getDate() + "," + quantity;
+      return super.getUserId() + "," + super.getDate().getTime() + "," + quantity;
     }
     
     public String toString(){
