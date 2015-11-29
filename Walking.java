@@ -70,6 +70,10 @@ public class Walking extends ExerciseActivity{
          return (weight * .53) * distance;
     }
     
+    public String stringWriter(){
+      return super.getUserId() + "," + super.getDate() + "," + distance  + "," + Double.toString(weight) + "," + duration;
+    }
+    
     public String toString(){
         return super.toString() + "\nWalking Distance: " + String.format("%.2f", distance) + " mile(s)\n" 
                                  + "Weight: " + weight+ " lbs\n" + "Duration: " + duration + " minute(s)" 
