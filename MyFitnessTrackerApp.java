@@ -55,7 +55,7 @@ public class MyFitnessTrackerApp {
 					switch(secondMenuOption){
 					case 1:	viewProfile(currentUser);
 						break;
-					case 2:
+					case 2: 
 						break;
 					case 3:
 						break;
@@ -73,14 +73,6 @@ public class MyFitnessTrackerApp {
 			}
 		}while(firstMenuOption != 3);
 
-		//		        for(FitnessUser fit: fitnessUserList){
-		//		        	System.out.println("Userid: " + fit.getUserId() + " Name: " + fit.getName() + "\n" +
-		//		        					"username: " + fit.getUsername() + " gender: " + fit.getGender() + "\n"
-		//		        					+ "age: " + fit.getAge() + " height: " + fit.getHeight() + " currentWeight: " + fit.getCurrentWeight() +
-		//		        					" target Weight: " + fit.getTargetWeight());
-		//		        	System.out.println("--------------------------------------------");
-		//		        }
-
 
 	}
 	/**
@@ -88,7 +80,32 @@ public class MyFitnessTrackerApp {
 	 * @param fitUser
 	 */
 	public static void viewProfile(FitnessUser fitUser){
+		String fitUserInfo = "";
+		String weeklyReport = "";
+		String message = "";
+		String output = "";
+		//build fitUserInfo
+		fitUserInfo = buildUserProfile(fitUser);
+		//build weekly report
+		//build encouraging message/ based on weight loss/gain
 		
+		
+		output += fitUserInfo;
+		//display the whole thing
+		JOptionPane.showMessageDialog(null,output ,"My Fitness Tracker - JavaBeaners",JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	/**
+	 * Method to build a basic profile info about the user
+	 * @param user
+	 * @return profile string
+	 */
+	public static String buildUserProfile(FitnessUser user){
+		String profile = "Name: " + user.getName() + "\n"
+					   + "Age: " + user.getAge() + "\n"
+					   + "Weight: " + user.getCurrentWeight() + " lbs\n"
+					   + "Target Weight: " + user.getTargetWeight() + " lbs\n";
+		return profile;					   
 	}
 	/**
 	 * The purpose of this method is to load fitness users's data into application
@@ -138,7 +155,7 @@ public class MyFitnessTrackerApp {
 
 
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Internal IO error, contact support.","My Fitness Tracker - JavaBeaners",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Internal IO error (Initialize Application), contact support.","My Fitness Tracker - JavaBeaners",JOptionPane.ERROR_MESSAGE);
 		}   	
 
 	}
@@ -462,23 +479,23 @@ public class MyFitnessTrackerApp {
 
 		switch (type) {
 		case 0:  writeSampleContent(path,FITNESS_USER_CONTENT);
-		break;
+			break;
 		case 1:  writeSampleContent(path,NEXT_ID_CONTENT);
-		break;
+			break;
 		case 2:	 writeSampleContent(path,WEIGHTS_CONTENT);
-		break;
+			break;
 		case 3:  writeSampleContent(path,PULLUPS_CONTENT);
-		break;
+			break;
 		case 4:  writeSampleContent(path,PUSHUPS_CONTENT);
-		break;
+			break;
 		case 5:  writeSampleContent(path,RUNNING_CONTENT);
-		break;
+			break;
 		case 6:  writeSampleContent(path,WALKING_CONTENT);
-		break;
+			break;
 		case 7:  writeSampleContent(path,YOGA_CONTENT);
-		break;
+			break;
 		default: JOptionPane.showMessageDialog(null, "No files were loaded with content.");
-		break;
+			break;
 		}
 	}
 
@@ -815,7 +832,7 @@ public class MyFitnessTrackerApp {
 		}
 	}
 
-	/**NEW*********************************************
+	/**
 	 * Method to create a new user account
 	 * @return FitnessUser
 	 *
@@ -871,6 +888,11 @@ public class MyFitnessTrackerApp {
 		}    	
 	}
 
+	/**
+	 * Method to login a user to the application, returns the logged in user once done or null if unsuccessful
+	 * @param userList
+	 * @return
+	 */
 	public static FitnessUser login(List<FitnessUser> userList){
 		String username = getUsername(1);//1 for existing users
 		String password = getPassword(1);
@@ -879,7 +901,7 @@ public class MyFitnessTrackerApp {
 		if(aUser != null){
 			JOptionPane.showMessageDialog(null, "Log in Success! \nWelcome " + aUser.getUsername() + "!","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
 		}else{
-			JOptionPane.showMessageDialog(null, "Log in Unsuccessful! \nEither password or username did not match.","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Log in Unsuccessful! \nEither password or username did not match.","My Fitness Tracker - JavaBeaners", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return aUser;
@@ -962,4 +984,5 @@ public class MyFitnessTrackerApp {
 
 		return password;
 	}
+	
 }
