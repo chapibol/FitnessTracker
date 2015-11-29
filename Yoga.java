@@ -56,6 +56,10 @@ public class Yoga extends ExerciseActivity{
          return ((weight * 0.45359237) * 3) * ((double)duration / 60);
     }
     
+    public String stringWriter(){
+      return super.getUserId() + "," + super.getDate() + "," + Double.toString(weight) + "," + duration;
+    }
+    
     public String toString(){
         return super.toString() + "\nYoga Duration: " + duration + " minutes(s)\nWeight: " + weight + " lbs\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }
