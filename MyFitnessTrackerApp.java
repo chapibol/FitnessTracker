@@ -36,6 +36,7 @@ public class MyFitnessTrackerApp {
 		final int MAX_NUMBER_USERS = 50;
 		final String FITNESS_USER_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "fitnessUsers.txt";
 		final String NEXT_ID_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "nextID.txt";
+		final String WEIGHTS_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "weights.txt";//2
 		//array list to hold all fitness user accounts for the application. initial capacity of 10
 		List<FitnessUser> fitnessUserList = new ArrayList<FitnessUser>(MAX_NUMBER_USERS);
 		initializeApplication(fitnessUserList);
@@ -49,11 +50,13 @@ public class MyFitnessTrackerApp {
 			firstMenuOption = getFirstMenuOption();
 			if(firstMenuOption == 1){
 				currentUser = login(fitnessUserList);
-				secondMenuOption = getSecondMenuOption();
+				//only procede with user operations if log in was successful
+				if(currentUser != null){
+					secondMenuOption = getSecondMenuOption();
+				}				
 			}else if (firstMenuOption == 2){
-				FitnessUser newUser = createNewAccount(fitnessUserList,NEXT_ID_PATH,FITNESS_USER_PATH);
-				
-				
+				FitnessUser newUser = createNewAccount(fitnessUserList,NEXT_ID_PATH,FITNESS_USER_PATH,WEIGHTS_PATH);
+								
 			}else if(firstMenuOption == 3){
 				JOptionPane.showMessageDialog(null, "GoodBye!");
 			}
@@ -84,7 +87,7 @@ public class MyFitnessTrackerApp {
 		final String RUNNING_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "running.txt";//5
 		final String WALKING_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "walking.txt";//6
 		final String YOGA_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "yoga.txt";//7
-		final String WEIGHT_DATE_PAIR_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "weight_dates.txt";//8
+		
 
 		//create files if needed for all of the text files needed by the application
 		try {
@@ -96,7 +99,7 @@ public class MyFitnessTrackerApp {
 			createFileIfNeeded(RUNNING_PATH);
 			createFileIfNeeded(WALKING_PATH);
 			createFileIfNeeded(YOGA_PATH);
-			createFileIfNeeded(WEIGHT_DATE_PAIR_PATH);
+			
 			//LOAD DUMMY CONTENT TO FILES ONLY IF there is no user at all.
 			if(isFileEmpty(FITNESS_USER_PATH)){
 				loadSampleContent(FITNESS_USER_PATH,0);
@@ -639,7 +642,7 @@ public class MyFitnessTrackerApp {
 	 * @param fitnessUserPath
 	 * @return new user created reference
 	 */
-	public static FitnessUser createNewAccount(List<FitnessUser> fitnessUserList,String userIdPath, String fitnessUserPath){
+	public static FitnessUser createNewAccount(List<FitnessUser> fitnessUserList,String userIdPath, String fitnessUserPath,String weightDatePath){
 		FitnessUser newUser = new FitnessUser();
 
 		boolean usernameCheck = false;
@@ -753,10 +756,17 @@ public class MyFitnessTrackerApp {
 
 		int userId = readNextId(userIdPath);
 		newUser.setUserId(userId);
+		//save the current weight to weight date pair list in newUser
+		WeightDatePair weightDate = new WeightDatePair(newUser.getUserId(),currWeight,new Date());
+		newUser.addWeightDatePair(weightDate);
 		userId++;
 		saveNextId(userIdPath,userId);
+		//save newly created user to applicaiton
 		fitnessUserList.add(newUser);
+		//save newly create user to file
 		appendToFile(fitnessUserPath, newUser.stringWriter());
+		//save newly created weightDatePair to file also
+		appendToFile(weightDatePath,weightDate.stringWriter());
 		
 		return newUser;
 	}
@@ -846,7 +856,7 @@ public class MyFitnessTrackerApp {
 	public static FitnessUser login(List<FitnessUser> userList){
 		String username = getUsername(1);//1 for existing users
 		String password = getPassword(1);
-
+		
 		FitnessUser aUser = authenticateUsernameAndPassword(userList, username, password);
 		if(aUser != null){
 			JOptionPane.showMessageDialog(null, "Log in Success! Welcome " + aUser.getUsername() + "!","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);

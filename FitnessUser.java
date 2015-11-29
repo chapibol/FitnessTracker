@@ -190,7 +190,7 @@ public class FitnessUser {
    }
 
    public void addWeightDatePair(WeightDatePair weightDate){
-           weightDateList.add(weightDate);
+       weightDateList.add(weightDate);
    }
 
    public void setNumberOfUsers(int numberOfUsers){
