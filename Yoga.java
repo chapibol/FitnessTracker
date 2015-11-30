@@ -60,6 +60,13 @@ public class Yoga extends ExerciseActivity{
       return super.getUserId() + "," + super.getDate().getTime() + "," + Double.toString(weight) + "," + duration;
     }
     
+    public String reportStringWriter(){
+    	String name = "Yoga";
+    	String spaceOffset = "                                            ";
+    	String caloriesStr = String.format("%.2f", this.calculateCaloriesBurned());
+    	return name + spaceOffset + caloriesStr + "\n";
+    }
+    
     public String toString(){
         return super.toString() + "\nYoga Duration: " + duration + " minutes(s)\nWeight: " + weight + " lbs\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }

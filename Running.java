@@ -79,9 +79,17 @@ public class Running extends ExerciseActivity{
       return super.getUserId() + "," + super.getDate().getTime() + "," + distance  + "," + Double.toString(weight) + "," + duration;
     }
     
+    public String reportStringWriter(){
+    	String name = "Running";
+    	String spaceOffset = "                                      ";//name + spaces = 45
+    	String caloriesStr = String.format("%.2f", this.calculateCaloriesBurned());
+    	return name + spaceOffset + caloriesStr + "\n";
+    }
+    
     public String toString(){
         return super.toString() + "\nRunning Distance: " + String.format("%.2f", distance) + " mile(s)\n" 
                                  + "Weight: " + weight+ " lbs\n" + "Duration: " + duration + " minute(s)" 
                                  + "\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }
+    
 }

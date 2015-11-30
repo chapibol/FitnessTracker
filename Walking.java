@@ -74,6 +74,13 @@ public class Walking extends ExerciseActivity{
       return super.getUserId() + "," + super.getDate().getTime() + "," + distance  + "," + Double.toString(weight) + "," + duration;
     }
     
+    public String reportStringWriter(){
+    	String name = "Walking";
+    	String spaceOffset = "                                      ";
+    	String caloriesStr = String.format("%.2f", this.calculateCaloriesBurned());
+    	return name + spaceOffset + caloriesStr + "\n";
+    }
+    
     public String toString(){
         return super.toString() + "\nWalking Distance: " + String.format("%.2f", distance) + " mile(s)\n" 
                                  + "Weight: " + weight+ " lbs\n" + "Duration: " + duration + " minute(s)" 

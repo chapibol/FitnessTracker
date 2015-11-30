@@ -45,6 +45,7 @@ public abstract class ExerciseActivity {
     
     abstract double calculateCaloriesBurned();
     abstract String stringWriter();
+    abstract String reportStringWriter();
     
     public String toString(){
         String stringDate = null;

@@ -13,6 +13,8 @@
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -80,19 +82,96 @@ public class MyFitnessTrackerApp {
 	 * @param fitUser
 	 */
 	public static void viewProfile(FitnessUser fitUser){
+		//get activities for the last 7 days
+		List<ExerciseActivity> pastActivities = getActivitiesInThePast(fitUser,30);
 		String fitUserInfo = "";
-		String weeklyReport = "";
+		String weeklyReportTop = "\nProgress Report For Last 7 Days:\n"
+				+ "Activities                       Calories Burned\n"
+				+ "---------------------------------------------------\n";
+		String activitiesBody = "";
+		String totalCalories = "";
 		String message = "";
 		String output = "";
 		//build fitUserInfo
 		fitUserInfo = buildUserProfile(fitUser);
-		//build weekly report
-		//build encouraging message/ based on weight loss/gain
+		//build weekly report (last 7 days)
+		activitiesBody = buildReportBody(pastActivities);
+		totalCalories = buildTotalCaloriesReport(pastActivities);
+		message = buildEncouragingMessage(fitUser);
 		
 		
-		output += fitUserInfo;
+		output += fitUserInfo + weeklyReportTop + activitiesBody + totalCalories + message;
 		//display the whole thing
 		JOptionPane.showMessageDialog(null,output ,"My Fitness Tracker - JavaBeaners",JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	
+	public static String buildEncouragingMessage(FitnessUser fit){
+		
+		return "Congratulations you have lost 5 pounds this week! Keep it up Boss!\n";
+	}
+	/**
+	 * Builds a string with the total calories burned 
+	 * @param fit
+	 * @return
+	 */
+	public static String buildTotalCaloriesReport(List<ExerciseActivity> exercises){
+		double totalCalories = 0;
+		for(ExerciseActivity e: exercises){
+			totalCalories += e.calculateCaloriesBurned();
+		}
+		String totalCaloriesStr = String.format("%.2f",totalCalories);
+		String output = "Total Calories Burned!    	        "+ totalCaloriesStr + "\n";
+		String separator = "------------------------------------------------------\n";
+		
+		return output + separator;
+		
+	}
+	/**
+	 * Method to build the body of the report from exercises list in the fitnessUser
+	 * @param exercises
+	 * @return
+	 */
+	public static String buildReportBody(List<ExerciseActivity> exercises){
+		String reportBody = "No activities found this past week.\n";
+		String separator = "---------------------------------------------------\n";
+		if(!exercises.isEmpty()){
+			//first sort from newest to oldest. using comparator
+			Collections.sort(exercises, new Comparator<ExerciseActivity>() {
+				  public int compare(ExerciseActivity o1, ExerciseActivity o2) {
+					  //check for any nulls
+				      if (o1.getDate() == null || o2.getDate() == null)
+				        return 0;
+				      return o1.getDate().compareTo(o2.getDate());
+				  }
+				});
+			reportBody = "";
+			//build the report's body
+			for(ExerciseActivity e: exercises){
+				reportBody += e.reportStringWriter();
+			}
+			reportBody += separator;
+		}		
+		return reportBody;
+	}
+	/**
+	 * Gets all of the activities saved by the user  in the last daysAgo parameter.
+	 * @param fit
+	 * @return list of ExerciseActivity instances
+	 */
+	public static List<ExerciseActivity> getActivitiesInThePast(FitnessUser fit, int daysAgo){
+		long today = (new Date()).getTime();//get todays date
+		final long MILLISECONDS_IN_A_DAY = 86400000 ;
+		long timeAgo = today - (MILLISECONDS_IN_A_DAY * daysAgo);//time in miliseconds however many days 	
+		//get all activities from a week ago until today.
+		List<ExerciseActivity> pastExercises = new ArrayList<ExerciseActivity>(10);
+		for(ExerciseActivity ex: fit.getActivities()){
+			if(ex.getDate().getTime() >= timeAgo){
+				pastExercises.add(ex);
+			}
+		}
+		//return those activities
+		return pastExercises;
 	}
 	
 	/**
