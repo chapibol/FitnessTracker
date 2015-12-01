@@ -31,7 +31,7 @@ public class PushUp extends ExerciseActivity{
      * @throws InvalidInputException
      */
     public void setQuantity(int quantity) throws InvalidInputException{
-      if(quantity < 0 || quantity > 999){
+      if(quantity < 1 || quantity > 999){
          throw new InvalidInputException("Entry should be between 0 and 999");
       }
       this.quantity = quantity;
