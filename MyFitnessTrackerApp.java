@@ -63,16 +63,14 @@ public class MyFitnessTrackerApp {
 						case 2: String activityChoice = chooseActivity(activityOptions);
          						addExerciseActivity(activityOptions, activityChoice, currentUser);
 							break;
-						case 3:
-							break;
-						case 4: JOptionPane.showMessageDialog(null, "Good Bye " + currentUser.getUsername() + "!");
-						//logoff the current user
-						currentUser = null;
-						break;
+						case 3: JOptionPane.showMessageDialog(null, "Good Bye " + currentUser.getUsername() + "!");
+								//logoff the current user
+								currentUser = null;
+								break;
 						default:
 							break;
 						}
-					}while(secondMenuOption != 4);					
+					}while(secondMenuOption != 3);					
 
 				}				
 			}else if (firstMenuOption == 2){
@@ -765,9 +763,10 @@ public class MyFitnessTrackerApp {
 		}else if (type == 2){
 			menu = "My Fitness Tracker \n"
 					+ "(1) View Profile\n"
-					+ "(2) Add Activity\n"
-					+ "(3) Update Profile\n"
-					+ "(4) Exit";
+					+ "(2) Add Activity\n"					
+					+ "(3) Exit";
+			
+			//+ "(3) Update Profile\n"
 		}
 		int userChoice = Integer.parseInt(JOptionPane.showInputDialog(null,menu,"My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE));
 
