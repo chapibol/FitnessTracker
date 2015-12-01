@@ -53,19 +53,23 @@ public class MyFitnessTrackerApp {
 				currentUser = login(fitnessUserList);
 				//only procede with user operations if log in was successful
 				if(currentUser != null){
-					secondMenuOption = getSecondMenuOption();
-					switch(secondMenuOption){
-					case 1:	viewProfile(currentUser);
-						break;
-					case 2: 
-						break;
-					case 3:
-						break;
-					case 4: JOptionPane.showMessageDialog(null, "Good Bye " + currentUser.getUsername() + "!");
-						break;
-					default:
-						break;
-					}
+					do{
+						secondMenuOption = getSecondMenuOption();
+						switch(secondMenuOption){
+						case 1:	viewProfile(currentUser);
+							break;
+						case 2: 
+							break;
+						case 3:
+							break;
+						case 4: JOptionPane.showMessageDialog(null, "Good Bye " + currentUser.getUsername() + "!");
+							//logoff the current user
+							currentUser = null;
+							break;
+						default:
+							break;
+						}
+					}while(secondMenuOption != 4);					
 				}				
 			}else if (firstMenuOption == 2){
 				FitnessUser newUser = createNewAccount(fitnessUserList,NEXT_ID_PATH,FITNESS_USER_PATH,WEIGHTS_PATH);
@@ -83,7 +87,7 @@ public class MyFitnessTrackerApp {
 	 */
 	public static void viewProfile(FitnessUser fitUser){
 		//get activities for the last 7 days
-		List<ExerciseActivity> pastActivities = getActivitiesInThePast(fitUser,30);
+		List<ExerciseActivity> pastActivities = getActivitiesInThePast(fitUser,7);
 		String fitUserInfo = "";
 		String weeklyReportTop = "\nProgress Report For Last 7 Days:\n"
 				+ "Activities                       Calories Burned\n"
@@ -107,8 +111,25 @@ public class MyFitnessTrackerApp {
 	
 	
 	public static String buildEncouragingMessage(FitnessUser fit){
+		//get second to last weight in the weights list
+		WeightDatePair lastWeight = fit.getWeightDateList().get(fit.getWeightDateList().size()-1);
+		double currentWeight = fit.getCurrentWeight();
+		double weightDiff = currentWeight - lastWeight.getWeight();
+		final String WEIGHT_LOSS_MESSAGE = "Look at you slim human being!, Keep it up! you have lost ";
+		final String SAME_WEIGHT_MESSAGE = "Good work keeping up with your health!, Your weight has stayed the same ";
+		final String WEIGHT_GAIN_MESSAGE = "Keep up the good work. You have gained some weight ";
+		String finalMessage = "";
 		
-		return "Congratulations you have lost 5 pounds this week! Keep it up Boss!\n";
+		if(weightDiff > 0){
+			finalMessage = WEIGHT_GAIN_MESSAGE + String.format("%.2f", Math.abs(weightDiff)) + " lbs";
+		}else if(weightDiff < 0){
+			finalMessage = WEIGHT_LOSS_MESSAGE + String.format("%.2f", Math.abs(weightDiff)) + " lbs";
+		}else{
+			finalMessage = SAME_WEIGHT_MESSAGE;
+		}
+		
+		
+		return finalMessage + "\n";
 	}
 	/**
 	 * Builds a string with the total calories burned 
