@@ -1062,6 +1062,5 @@ public class MyFitnessTrackerApp {
 		}while(!isPasswordValid);
 
 		return password;
-	}
-	
+	}	
 }
