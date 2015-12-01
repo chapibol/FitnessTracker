@@ -60,7 +60,8 @@ public class MyFitnessTrackerApp {
 						switch(secondMenuOption){
 						case 1:	viewProfile(currentUser);
 						break;
-						case 2: 
+						case 2: String activityChoice = chooseActivity(activityOptions);
+         						addExerciseActivity(activityOptions, activityChoice, currentUser);
 							break;
 						case 3:
 							break;
@@ -570,14 +571,14 @@ public class MyFitnessTrackerApp {
 	 * @param type (the type of content to be filled)
 	 */
 	public static void loadSampleContent(String path, int type){
-		final String FITNESS_USER_CONTENT = "100,Jhon Doe,jdoe,1234,M,50,70,145,140\n";//userid,name,username,password,gender,age,height,currentWeight,targetWeight
+		final String FITNESS_USER_CONTENT = "100,Jhon Doe,jdoe,1234,M,50,70,145,140";//userid,name,username,password,gender,age,height,currentWeight,targetWeight
 		final String NEXT_ID_CONTENT = "101\n";
-		final String WEIGHTS_CONTENT = "100,145,1447276622832\n";//userid,currentWeight,date
-		final String PULLUPS_CONTENT = "100,1447276622832,10\n";//userid,date,reps
-		final String PUSHUPS_CONTENT = "100,1447276622832,20\n";//userid,date,reps
-		final String RUNNING_CONTENT = "100,1447276622832,1,145,35\n";//userid,date,distance,weight,duration(minutes)
-		final String WALKING_CONTENT = "100,1447276622832,2,145,45\n";//userid,date,distance,weight,duration(minutes)
-		final String YOGA_CONTENT = "100,1447276622832,145,30\n";//userId,date,weight,duration(minutes)
+		final String WEIGHTS_CONTENT = "100,145,1447276622832";//userid,currentWeight,date
+		final String PULLUPS_CONTENT = "100,1447276622832,10";//userid,date,reps
+		final String PUSHUPS_CONTENT = "100,1447276622832,20";//userid,date,reps
+		final String RUNNING_CONTENT = "100,1447276622832,1,145,35";//userid,date,distance,weight,duration(minutes)
+		final String WALKING_CONTENT = "100,1447276622832,2,145,45";//userid,date,distance,weight,duration(minutes)
+		final String YOGA_CONTENT = "100,1447276622832,145,30";//userId,date,weight,duration(minutes)
 
 
 		switch (type) {
@@ -625,7 +626,7 @@ public class MyFitnessTrackerApp {
 		PrintWriter out = null;
 		try {
 			out = new PrintWriter(new FileOutputStream(new File(path)));
-			out.print(content);
+			out.println(content);
 		} catch (FileNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "Internal error, please contact support file not found.");
 		}finally{
@@ -1284,8 +1285,6 @@ public class MyFitnessTrackerApp {
 			JOptionPane.showMessageDialog(null, e);
 		}
 		currentUser.addExerciseActivity(yog);
-		currentUser.addExerciseActivity(yog);
 		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "yoga.txt", yog.stringWriter());
 	}
 }
-
