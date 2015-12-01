@@ -44,6 +44,13 @@ public class PullUp extends ExerciseActivity{
       return super.getUserId() + "," + super.getDate().getTime() + "," + quantity;
     }
     
+    public String reportStringWriter(){
+    	String name = "Pullups";
+    	String spaceOffset = "                                        ";
+    	String caloriesStr = String.format("%.2f", this.calculateCaloriesBurned());
+    	return name + spaceOffset + caloriesStr + "\n";
+    }
+    
     public String toString(){
         return super.toString() + "\nPullup Reps: " + quantity + "\nCalories Burned: " + String.format("%.2f", calculateCaloriesBurned());
     }

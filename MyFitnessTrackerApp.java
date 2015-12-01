@@ -13,6 +13,8 @@
  */
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -52,37 +54,33 @@ public class MyFitnessTrackerApp {
 				currentUser = login(fitnessUserList);
 				//only procede with user operations if log in was successful
 				if(currentUser != null){
-					secondMenuOption = getSecondMenuOption();
-					switch(secondMenuOption){
-					case 1:	viewProfile(currentUser);
+
+					do{
+						secondMenuOption = getSecondMenuOption();
+						switch(secondMenuOption){
+						case 1:	viewProfile(currentUser);
 						break;
-					case 2:
-						String activityChoice = chooseActivity(activityOptions);
-                     				addExerciseActivity(activityOptions, activityChoice, currentUser);
+						case 2: 
+							break;
+						case 3:
+							break;
+						case 4: JOptionPane.showMessageDialog(null, "Good Bye " + currentUser.getUsername() + "!");
+						//logoff the current user
+						currentUser = null;
 						break;
-					case 3:
-						break;
-					case 4: JOptionPane.showMessageDialog(null, "Good Bye " + currentUser.getUsername() + "!");
-						break;
-					default:
-						break;
-					}
+						default:
+							break;
+						}
+					}while(secondMenuOption != 4);					
+
 				}				
 			}else if (firstMenuOption == 2){
 				FitnessUser newUser = createNewAccount(fitnessUserList,NEXT_ID_PATH,FITNESS_USER_PATH,WEIGHTS_PATH);
-								
+
 			}else if(firstMenuOption == 3){
 				JOptionPane.showMessageDialog(null, "GoodBye!");
 			}
 		}while(firstMenuOption != 3);
-
-		//		        for(FitnessUser fit: fitnessUserList){
-		//		        	System.out.println("Userid: " + fit.getUserId() + " Name: " + fit.getName() + "\n" +
-		//		        					"username: " + fit.getUsername() + " gender: " + fit.getGender() + "\n"
-		//		        					+ "age: " + fit.getAge() + " height: " + fit.getHeight() + " currentWeight: " + fit.getCurrentWeight() +
-		//		        					" target Weight: " + fit.getTargetWeight());
-		//		        	System.out.println("--------------------------------------------");
-		//		        }
 
 
 	}
@@ -91,7 +89,126 @@ public class MyFitnessTrackerApp {
 	 * @param fitUser
 	 */
 	public static void viewProfile(FitnessUser fitUser){
-		
+		//get activities for the last 7 days
+		List<ExerciseActivity> pastActivities = getActivitiesInThePast(fitUser,7);
+		String fitUserInfo = "";
+		String weeklyReportTop = "\nProgress Report For Last 7 Days:\n"
+				+ "Activities                       Calories Burned\n"
+				+ "---------------------------------------------------\n";
+		String activitiesBody = "";
+		String totalCalories = "";
+		String message = "";
+		String output = "";
+		//build fitUserInfo
+		fitUserInfo = buildUserProfile(fitUser);
+		//build weekly report (last 7 days)
+		activitiesBody = buildReportBody(pastActivities);
+		totalCalories = buildTotalCaloriesReport(pastActivities);
+		message = buildEncouragingMessage(fitUser);
+
+
+		output += fitUserInfo + weeklyReportTop + activitiesBody + totalCalories + message;
+		//display the whole thing
+		JOptionPane.showMessageDialog(null,output ,"My Fitness Tracker - JavaBeaners",JOptionPane.INFORMATION_MESSAGE);
+	}
+
+
+	public static String buildEncouragingMessage(FitnessUser fit){
+		//get second to last weight in the weights list
+		WeightDatePair lastWeight = fit.getWeightDateList().get(fit.getWeightDateList().size()-1);
+		double currentWeight = fit.getCurrentWeight();
+		double weightDiff = currentWeight - lastWeight.getWeight();
+		final String WEIGHT_LOSS_MESSAGE = "Look at you slim human being!, Keep it up! you have lost ";
+		final String SAME_WEIGHT_MESSAGE = "Good work keeping up with your health!, Your weight has stayed the same ";
+		final String WEIGHT_GAIN_MESSAGE = "Keep up the good work. You have gained some weight ";
+		String finalMessage = "";
+
+		if(weightDiff > 0){
+			finalMessage = WEIGHT_GAIN_MESSAGE + String.format("%.2f", Math.abs(weightDiff)) + " lbs";
+		}else if(weightDiff < 0){
+			finalMessage = WEIGHT_LOSS_MESSAGE + String.format("%.2f", Math.abs(weightDiff)) + " lbs";
+		}else{
+			finalMessage = SAME_WEIGHT_MESSAGE;
+		}
+
+
+		return finalMessage + "\n";
+	}
+	/**
+	 * Builds a string with the total calories burned 
+	 * @param fit
+	 * @return
+	 */
+	public static String buildTotalCaloriesReport(List<ExerciseActivity> exercises){
+		double totalCalories = 0;
+		for(ExerciseActivity e: exercises){
+			totalCalories += e.calculateCaloriesBurned();
+		}
+		String totalCaloriesStr = String.format("%.2f",totalCalories);
+		String output = "Total Calories Burned!    	        "+ totalCaloriesStr + "\n";
+		String separator = "------------------------------------------------------\n";
+
+		return output + separator;
+
+	}
+	/**
+	 * Method to build the body of the report from exercises list in the fitnessUser
+	 * @param exercises
+	 * @return
+	 */
+	public static String buildReportBody(List<ExerciseActivity> exercises){
+		String reportBody = "No activities found this past week.\n";
+		String separator = "---------------------------------------------------\n";
+		if(!exercises.isEmpty()){
+			//first sort from newest to oldest. using comparator
+			Collections.sort(exercises, new Comparator<ExerciseActivity>() {
+				public int compare(ExerciseActivity o1, ExerciseActivity o2) {
+					//check for any nulls
+					if (o1.getDate() == null || o2.getDate() == null)
+						return 0;
+					return o1.getDate().compareTo(o2.getDate());
+				}
+			});
+			reportBody = "";
+			//build the report's body
+			for(ExerciseActivity e: exercises){
+				reportBody += e.reportStringWriter();
+			}
+			reportBody += separator;
+		}		
+		return reportBody;
+	}
+	/**
+	 * Gets all of the activities saved by the user  in the last daysAgo parameter.
+	 * @param fit
+	 * @return list of ExerciseActivity instances
+	 */
+	public static List<ExerciseActivity> getActivitiesInThePast(FitnessUser fit, int daysAgo){
+		long today = (new Date()).getTime();//get todays date
+		final long MILLISECONDS_IN_A_DAY = 86400000 ;
+		long timeAgo = today - (MILLISECONDS_IN_A_DAY * daysAgo);//time in miliseconds however many days 	
+		//get all activities from a week ago until today.
+		List<ExerciseActivity> pastExercises = new ArrayList<ExerciseActivity>(10);
+		for(ExerciseActivity ex: fit.getActivities()){
+			if(ex.getDate().getTime() >= timeAgo){
+				pastExercises.add(ex);
+			}
+		}
+		//return those activities
+		return pastExercises;
+	}
+
+	/**
+	 * Method to build a basic profile info about the user
+	 * @param user
+	 * @return profile string
+	 */
+	public static String buildUserProfile(FitnessUser user){
+		String profile = "Name: " + user.getName() + "\n"
+				+ "Age: " + user.getAge() + "\n"
+				+ "Weight: " + user.getCurrentWeight() + " lbs\n"
+				+ "Target Weight: " + user.getTargetWeight() + " lbs\n";
+		return profile;					   
 	}
 	/**
 	 * The purpose of this method is to load fitness users's data into application
@@ -108,7 +225,7 @@ public class MyFitnessTrackerApp {
 		final String RUNNING_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "running.txt";//5
 		final String WALKING_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "walking.txt";//6
 		final String YOGA_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "yoga.txt";//7
-		
+
 
 		//create files if needed for all of the text files needed by the application
 		try {
@@ -120,7 +237,7 @@ public class MyFitnessTrackerApp {
 			createFileIfNeeded(RUNNING_PATH);
 			createFileIfNeeded(WALKING_PATH);
 			createFileIfNeeded(YOGA_PATH);
-			
+
 			//LOAD DUMMY CONTENT TO FILES ONLY IF there is no user at all.
 			if(isFileEmpty(FITNESS_USER_PATH)){
 				loadSampleContent(FITNESS_USER_PATH,0);
@@ -141,7 +258,7 @@ public class MyFitnessTrackerApp {
 
 
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Internal IO error, contact support.","My Fitness Tracker - JavaBeaners",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Internal IO error (Initialize Application), contact support.","My Fitness Tracker - JavaBeaners",JOptionPane.ERROR_MESSAGE);
 		}   	
 
 	}
@@ -609,7 +726,7 @@ public class MyFitnessTrackerApp {
 		}while(userChoice < 1 || userChoice > 3);
 		return userChoice;		
 	}
-	
+
 	/**
 	 * Method to get the users option for the second menu. once user is logged in.
 	 * @return
@@ -788,7 +905,7 @@ public class MyFitnessTrackerApp {
 		appendToFile(fitnessUserPath, newUser.stringWriter());
 		//save newly created weightDatePair to file also
 		appendToFile(weightDatePath,weightDate.stringWriter());
-		
+
 		return newUser;
 	}
 
@@ -805,7 +922,7 @@ public class MyFitnessTrackerApp {
 			out = new BufferedWriter(new FileWriter(path, true));
 			out.write(content);
 			out.newLine();
-			
+
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e);
 		}finally{
@@ -818,7 +935,7 @@ public class MyFitnessTrackerApp {
 		}
 	}
 
-	/**NEW*********************************************
+	/**
 	 * Method to create a new user account
 	 * @return FitnessUser
 	 *
@@ -874,15 +991,20 @@ public class MyFitnessTrackerApp {
 		}    	
 	}
 
+	/**
+	 * Method to login a user to the application, returns the logged in user once done or null if unsuccessful
+	 * @param userList
+	 * @return
+	 */
 	public static FitnessUser login(List<FitnessUser> userList){
 		String username = getUsername(1);//1 for existing users
 		String password = getPassword(1);
-		
+
 		FitnessUser aUser = authenticateUsernameAndPassword(userList, username, password);
 		if(aUser != null){
 			JOptionPane.showMessageDialog(null, "Log in Success! \nWelcome " + aUser.getUsername() + "!","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
 		}else{
-			JOptionPane.showMessageDialog(null, "Log in Unsuccessful! \nEither password or username did not match.","My Fitness Tracker - JavaBeaners", JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(null, "Log in Unsuccessful! \nEither password or username did not match.","My Fitness Tracker - JavaBeaners", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return aUser;
@@ -965,203 +1087,205 @@ public class MyFitnessTrackerApp {
 
 		return password;
 	}
+
 	public static String chooseActivity(String[] activityOptions){
-      		boolean validChoice = false;
-      		String choice = "";
-      		do{
-      			try{
-      				choice = (String) JOptionPane.showInputDialog(null, "Choose an activity",
-        				"Choose an activity", JOptionPane.QUESTION_MESSAGE, null,
-					activityOptions,
-        				activityOptions[1]);
-        			validChoice = true;
-         			for(String i: activityOptions){
-            				if(choice.equals(i)){
-               					validChoice = true;
-    					}
-         			}
-      			}catch(NullPointerException e){
-         			validChoice = false;
-         			JOptionPane.showMessageDialog(null, "You must choose an activity");
-      			}
-      		}while(validChoice == false);
-      		return choice;
-   	}
-   
+		boolean validChoice = false;
+		String choice = "";
+		do{
+			try{
+				choice = (String) JOptionPane.showInputDialog(null, "Choose an activity",
+						"Choose an activity", JOptionPane.QUESTION_MESSAGE, null,
+						activityOptions,
+						activityOptions[1]);
+				validChoice = true;
+				for(String i: activityOptions){
+					if(choice.equals(i)){
+						validChoice = true;
+					}
+				}
+			}catch(NullPointerException e){
+				validChoice = false;
+				JOptionPane.showMessageDialog(null, "You must choose an activity");
+			}
+		}while(validChoice == false);
+		return choice;
+	}
+
 	public static void addExerciseActivity(String[] activityOptions, String activity, FitnessUser currentUser){
-      		if(activity.equals(activityOptions[0])){//Pullups
-         		addPullUpActivity(currentUser);
-      		}
-      		else if(activity.equals(activityOptions[1])){//Pushups
-         		addPushUpActivity(currentUser);
-      		}
-      		else if(activity.equals(activityOptions[2])){//Running
-         		addRunningActivity(currentUser);
-      		}
-      		else if(activity.equals(activityOptions[3])){//Walking
-         		addWalkingActivity(currentUser);
-      		}
-      		else if(activity.equals(activityOptions[4])){//Yoga
-         		addYogaActivity(currentUser);
-      		}
-   	}
-   
-   	public static void addPullUpActivity(FitnessUser currentUser){
-      		boolean validInput = true;
-      		int reps = 0;
-      		PullUp pull = new PullUp();
-      		do{
-         		validInput = true;
-         		try{
-            			reps = Integer.parseInt(JOptionPane.showInputDialog("Reps(quantity):"));
-            			pull.setUserId(currentUser.getUserId());
-            			pull.setDate(new Date());
-            			pull.setQuantity(reps);
- 			}catch(NumberFormatException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, "Must be a number");
-         		}catch(InvalidInputException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, e);
-         		}
-      		}while(validInput == false);
-      		currentUser.addExerciseActivity(pull);
-      		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "pullups.txt", pull.stringWriter());
-   	}
-   
-   	public static void addPushUpActivity(FitnessUser currentUser){
-      		boolean validInput = true;
-      		int reps = 0;
-      		PushUp push = new PushUp();
-      		do{
-         		validInput = true;
-         		try{
-            			reps = Integer.parseInt(JOptionPane.showInputDialog("Reps(quantity):"));
-            			push.setUserId(currentUser.getUserId());
-            			push.setDate(new Date());
-            			push.setQuantity(reps);
-         		}catch(NumberFormatException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, "Must be a number");
-         		}catch(InvalidInputException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, e);
-         		}
-      		}while(validInput == false);
-      		currentUser.addExerciseActivity(push);
-      		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "pushups.txt", push.stringWriter());
-   	}
-   
-   	public static void addRunningActivity(FitnessUser currentUser){
-      		boolean validInput = true;
-      		double distance = 0;
-      		int duration = 0;
-      		Running run = new Running();
-      		do{
-         		validInput = true;
-         		try{
-            			distance = Double.parseDouble(JOptionPane.showInputDialog("Distance(miles):"));
-            			run.setDistance(distance);
-         		}catch(NumberFormatException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, "Must be a number");
-         		}catch(InvalidInputException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, e);
-         		}
-      		}while(validInput == false);
-      		do{
-         		validInput = true;
-         		try{
-            			duration = Integer.parseInt(JOptionPane.showInputDialog("Time(minutes):"));
-            			run.setDuration(duration);
-         		}catch(NumberFormatException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, "Must be a number");
-         		}catch(InvalidInputException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, e);
-         		}
-      		}while(validInput == false);
-      			run.setUserId(currentUser.getUserId());
-      			run.setDate(new Date());
-      			try{
-         			run.setWeight(currentUser.getCurrentWeight());
-      			}catch(InvalidInputException e){
-         			JOptionPane.showMessageDialog(null, e);
-      			}
-      			currentUser.addExerciseActivity(run);
-      			appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "running.txt", run.stringWriter());
-   		}
-   
-   	public static void addWalkingActivity(FitnessUser currentUser){
-      		boolean validInput = true;
-      		double distance = 0;
-      		int duration = 0;
-      		Walking walk = new Walking();
-      		do{
-         		validInput = true;
-         		try{
-            			distance = Double.parseDouble(JOptionPane.showInputDialog("Distance(miles):"));
-            			walk.setDistance(distance);
-         		}catch(NumberFormatException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, "Must be a number");
-         		}catch(InvalidInputException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, e);
-         		}
-      		}while(validInput == false);
-      		do{
-         		validInput = true;
-         		try{
-            			duration = Integer.parseInt(JOptionPane.showInputDialog("Time(minutes):"));
-            			walk.setDuration(duration);
-         		}catch(NumberFormatException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, "Must be a number");
-         		}catch(InvalidInputException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, e);
-         		}
-      		}while(validInput == false);
-      			walk.setUserId(currentUser.getUserId());
-      			walk.setDate(new Date());
-      			try{
-         			walk.setWeight(currentUser.getCurrentWeight());
-      			}catch(InvalidInputException e){
-         			JOptionPane.showMessageDialog(null, e);
-      			}
-      			currentUser.addExerciseActivity(walk);
-      			appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "walking.txt", walk.stringWriter());
-   		}
-	   
-   	public static void addYogaActivity(FitnessUser currentUser){
-   		boolean validInput = true;
-   		int duration = 0;
-   		Yoga yog = new Yoga();
-      		do{
-         		validInput = true;
-         		try{
-            			duration = Integer.parseInt(JOptionPane.showInputDialog("Time(minutes):"));
-            			yog.setDuration(duration);
-         		}catch(NumberFormatException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, "Must be a number");
-         		}catch(InvalidInputException e){
-            			validInput = false;
-            			JOptionPane.showMessageDialog(null, e);
-         		}
-      		}while(validInput == false);
-      			yog.setUserId(currentUser.getUserId());
-      			yog.setDate(new Date());
-      			try{
-         			yog.setWeight(currentUser.getCurrentWeight());
-      			}catch(InvalidInputException e){
-         			JOptionPane.showMessageDialog(null, e);
-      		}
-      		currentUser.addExerciseActivity(yog);
-      		currentUser.addExerciseActivity(yog);
-      		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "yoga.txt", yog.stringWriter());
-   	}
+		if(activity.equals(activityOptions[0])){//Pullups
+			addPullUpActivity(currentUser);
+		}
+		else if(activity.equals(activityOptions[1])){//Pushups
+			addPushUpActivity(currentUser);
+		}
+		else if(activity.equals(activityOptions[2])){//Running
+			addRunningActivity(currentUser);
+		}
+		else if(activity.equals(activityOptions[3])){//Walking
+			addWalkingActivity(currentUser);
+		}
+		else if(activity.equals(activityOptions[4])){//Yoga
+			addYogaActivity(currentUser);
+		}
+	}
+
+	public static void addPullUpActivity(FitnessUser currentUser){
+		boolean validInput = true;
+		int reps = 0;
+		PullUp pull = new PullUp();
+		do{
+			validInput = true;
+			try{
+				reps = Integer.parseInt(JOptionPane.showInputDialog("Reps(quantity):"));
+				pull.setUserId(currentUser.getUserId());
+				pull.setDate(new Date());
+				pull.setQuantity(reps);
+			}catch(NumberFormatException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, "Must be a number");
+			}catch(InvalidInputException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}while(validInput == false);
+		currentUser.addExerciseActivity(pull);
+		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "pullups.txt", pull.stringWriter());
+	}
+
+	public static void addPushUpActivity(FitnessUser currentUser){
+		boolean validInput = true;
+		int reps = 0;
+		PushUp push = new PushUp();
+		do{
+			validInput = true;
+			try{
+				reps = Integer.parseInt(JOptionPane.showInputDialog("Reps(quantity):"));
+				push.setUserId(currentUser.getUserId());
+				push.setDate(new Date());
+				push.setQuantity(reps);
+			}catch(NumberFormatException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, "Must be a number");
+			}catch(InvalidInputException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}while(validInput == false);
+		currentUser.addExerciseActivity(push);
+		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "pushups.txt", push.stringWriter());
+	}
+
+	public static void addRunningActivity(FitnessUser currentUser){
+		boolean validInput = true;
+		double distance = 0;
+		int duration = 0;
+		Running run = new Running();
+		do{
+			validInput = true;
+			try{
+				distance = Double.parseDouble(JOptionPane.showInputDialog("Distance(miles):"));
+				run.setDistance(distance);
+			}catch(NumberFormatException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, "Must be a number");
+			}catch(InvalidInputException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}while(validInput == false);
+		do{
+			validInput = true;
+			try{
+				duration = Integer.parseInt(JOptionPane.showInputDialog("Time(minutes):"));
+				run.setDuration(duration);
+			}catch(NumberFormatException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, "Must be a number");
+			}catch(InvalidInputException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}while(validInput == false);
+		run.setUserId(currentUser.getUserId());
+		run.setDate(new Date());
+		try{
+			run.setWeight(currentUser.getCurrentWeight());
+		}catch(InvalidInputException e){
+			JOptionPane.showMessageDialog(null, e);
+		}
+		currentUser.addExerciseActivity(run);
+		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "running.txt", run.stringWriter());
+	}
+
+	public static void addWalkingActivity(FitnessUser currentUser){
+		boolean validInput = true;
+		double distance = 0;
+		int duration = 0;
+		Walking walk = new Walking();
+		do{
+			validInput = true;
+			try{
+				distance = Double.parseDouble(JOptionPane.showInputDialog("Distance(miles):"));
+				walk.setDistance(distance);
+			}catch(NumberFormatException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, "Must be a number");
+			}catch(InvalidInputException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}while(validInput == false);
+		do{
+			validInput = true;
+			try{
+				duration = Integer.parseInt(JOptionPane.showInputDialog("Time(minutes):"));
+				walk.setDuration(duration);
+			}catch(NumberFormatException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, "Must be a number");
+			}catch(InvalidInputException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}while(validInput == false);
+		walk.setUserId(currentUser.getUserId());
+		walk.setDate(new Date());
+		try{
+			walk.setWeight(currentUser.getCurrentWeight());
+		}catch(InvalidInputException e){
+			JOptionPane.showMessageDialog(null, e);
+		}
+		currentUser.addExerciseActivity(walk);
+		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "walking.txt", walk.stringWriter());
+	}
+
+	public static void addYogaActivity(FitnessUser currentUser){
+		boolean validInput = true;
+		int duration = 0;
+		Yoga yog = new Yoga();
+		do{
+			validInput = true;
+			try{
+				duration = Integer.parseInt(JOptionPane.showInputDialog("Time(minutes):"));
+				yog.setDuration(duration);
+			}catch(NumberFormatException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, "Must be a number");
+			}catch(InvalidInputException e){
+				validInput = false;
+				JOptionPane.showMessageDialog(null, e);
+			}
+		}while(validInput == false);
+		yog.setUserId(currentUser.getUserId());
+		yog.setDate(new Date());
+		try{
+			yog.setWeight(currentUser.getCurrentWeight());
+		}catch(InvalidInputException e){
+			JOptionPane.showMessageDialog(null, e);
+		}
+		currentUser.addExerciseActivity(yog);
+		currentUser.addExerciseActivity(yog);
+		appendToFile("C:" + File.separator + "MyFitnessTrackerData" + File.separator + "yoga.txt", yog.stringWriter());
+	}
 }
+
