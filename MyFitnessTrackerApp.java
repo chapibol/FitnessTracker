@@ -10,6 +10,8 @@
  * text files.
  * 
  * @author Daniel de Souza, Luis Velasco
+ * Group Project Final Implementation
+ * IT 306
  */
 
 import java.util.ArrayList;
@@ -32,8 +34,6 @@ import java.io.PrintWriter;
 import javax.swing.JOptionPane;
 
 public class MyFitnessTrackerApp {
-
-
 	public static void main(String[] args){
 		final int MAX_NUMBER_USERS = 50;
 		final String FITNESS_USER_PATH = "C:" + File.separator + "MyFitnessTrackerData" + File.separator + "fitnessUsers.txt";
@@ -80,8 +80,6 @@ public class MyFitnessTrackerApp {
 				JOptionPane.showMessageDialog(null, "GoodBye!");
 			}
 		}while(firstMenuOption != 3);
-
-
 	}
 	/**
 	 * The purpose of this method is to display the fitUser's profile
@@ -570,7 +568,7 @@ public class MyFitnessTrackerApp {
 	 */
 	public static void loadSampleContent(String path, int type){
 		final String FITNESS_USER_CONTENT = "100,Jhon Doe,jdoe,1234,M,50,70,145,140";//userid,name,username,password,gender,age,height,currentWeight,targetWeight
-		final String NEXT_ID_CONTENT = "101\n";
+		final String NEXT_ID_CONTENT = "101";
 		final String WEIGHTS_CONTENT = "100,145,1447276622832";//userid,currentWeight,date
 		final String PULLUPS_CONTENT = "100,1447276622832,10";//userid,date,reps
 		final String PUSHUPS_CONTENT = "100,1447276622832,20";//userid,date,reps

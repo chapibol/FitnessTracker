@@ -1,11 +1,12 @@
 /*
  * Class WeightDatePair
  *
- * This class allows the program to track weight loss/gain progress for each individual user.
+ * This class allows the program to track weight for the fitness user.
  * 
  * 
  * @author Daniel de Souza, Luis Velasco
-   100,145,1447276622832
+ * Group Project Final Implementation
+ * IT 306
  */
  
 import java.text.DateFormat;

@@ -1,4 +1,10 @@
-
+/**
+ * This class's purpose is to host static utility methods that are used by other classes.
+ * @author Luis Velasco, Daniel De Souza
+ * Group Project Final Implementation
+ * IT 306
+ *
+ */
 public class Utility {
 	/**
 	 * Method that checks to see if a string input is valid. checks for null value, and empty strings

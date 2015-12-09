@@ -1,9 +1,11 @@
 /*
  * Class ExerciseActivity
  *
- * This abstract class allows each subclass to inherit its calculateCaloriesBurned method.
+ * Abstract Class To serve as superclass to all the other more specific activities.
  * 
  * @author Daniel de Souza, Luis Velasco
+ * Group Project Final Implementation
+ * IT 306
  */
  
 import java.text.DateFormat;

@@ -9,7 +9,10 @@
  * userId       targetWeight
  * activities   weightDateList
  * 
+ * 
  * @author Daniel de Souza, Luis Velasco
+ * Group Project Final Implementation
+ * IT 306
  */
 
 import java.util.ArrayList;

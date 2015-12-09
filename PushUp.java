@@ -5,7 +5,8 @@
  * It contains a calculation for calories burned during the activity.
  * 
  * @author Daniel de Souza, Luis Velasco
-   100,1447276622832,20
+ * Group Project Final Implementation
+ * IT 306
  */
  
 public class PushUp extends ExerciseActivity{
